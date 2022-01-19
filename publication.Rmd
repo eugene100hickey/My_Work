@@ -1,0 +1,38 @@
+---
+title: "Predicting Correlation of Spectra Using SDSS Colour Magnitudes"
+author: "Eugene"
+date: "10/01/2022"
+header-includes:
+   - \usepackage{siunitx}
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+\newcommand{\angstrom}{\text{\normalfont\AA}}
+
+### Abstract
+
+The Locus Algorithm is a new technique to improve the quality of differential photometry by optimising the choices of reference stars. At the heart of this algorithm is a routine to assess how good each potential reference star is by comparing its sdss magnitude values to those of the target star. In this way, the difference in effect of the Earth's atmospheric scattering between target and reference can be minimised. This paper sets out a new way to calculate the calculate the quality of each reference star using machine learning. A random subset of stars from sdss with spectra was chosen. For each one, a suitable reference star was chosen, also with a spectrum. The correlation between the two spectra was taken to be the gold-standard measure of how well they match up for differential photometry. The five sdss magnitude values for each of these stars were used as predictors. A gradient boosting model was constructed on a training set of the stars and was evaluated on a testing set. The dataset used, the model construction, and performance evaluation is presented here.
+
+### Introduction  
+
+The Locus Algorithm (Creaner LA) has been used to create catalogues of pointings suitable for differential photometry on astromonical targets based on a novel technique of choosing appropriate reference stars (Creaner QSO's and Creaner EXO's). The algorithm no longer places the target in the centre of the field of view but in general repositions it so as to include the best set of reference stars. Assessment of each reference star is performed by referring to the sdss catalogue and the colour band magnitudes therein. These magnitudes can be used to infer the overall shape of the star's spectrum. Stars that have similar spectra with be effected by scattering from the Earth's atmosphere to a more comparable degree that stars with dissimilar spectra. The original Locus Algorithm used a rational, but ad-hoc, method to estimate the correlation of stellar spectra based on differences between their g, r, and i sdss colour magnitudes. This was necessary for computational efficiency. The work presented here presents a more rigorous technique to estimate the correlation of stellar spectra based on machine learning. The subset of stars in sdss that have their spectra measured are used. These stars are paired off such that each pair has similar colour magnitude differences and are thus potentially a good match for differential photometry. The correlation between each pairs spectra is calculated. This forms the basis of a goodness-of-fit between the two spectra. The sdss magnitudes (u, g, r, i, and z for both stars in the pair) are then used to train a machine learning algorithm to predict this goodness-of-fit. The model produced is then applied to other pairsos stars, the test set, to evaluate its performance. The results show a significant improvement over the original ad-hoc Locus Algorithm routine, this model will be incorporated to future generations of the Locus Algorithm.
+
+### Data
+
+This work uses 5591 stellar spectra from the SDSS SEGUE and BOSS observations and their physical parameters from the 13th SDSS data release (SDSS ref). The spectra are clipped to just the wavelengths contained in the sdss r band (between 550nm and 700nm). Stars are paired off based on their sdss colour magnitudes so that both stars in a pair are of similar colour. Specifically, both $(g_1-r_1)-(g_2-r_2)$ and $(r_1-i_1)-(r_2-i_2)$ will be between 0 and 0.1. This ensures that these stars would be realistic matches for differential photometry. In addition, stars were chosen that had r colour magnitude values between 15 and 20. The SQL queries used to download physical parameters and the spectra are given in the supplementary materials for this paper.
+Correlations between spectra are calculated using the usual Pearson Correlation formula, given below.  
+
+$${\displaystyle r_{xy}={\frac {n\sum x_{i}y_{i}-\sum x_{i}\sum y_{i}}{{\sqrt {n\sum x_{i}^{2}-\left(\sum x_{i}\right)^{2}}}~{\sqrt {n\sum y_{i}^{2}-\left(\sum y_{i}\right)^{2}}}}}.}$$
+
+where $x_i$ refer to the flux from the first star in units of $erg/cm^2/s\spaceÅ$, $y_i$ the flux from the second star. Figure 1 shows some pairs of stars along with their correlations.    
+Correlation is usually bounded by -1 and 1. And because these are spectra from stars and they have similar colour magnitudes, the correlations tend to be clustered near this higher end, see the histogram in figure 2A below. Machine learning algorithms work better with normally distributed values, so the correlation values were transformed. First of all by a logit transformation:
+
+$${\displaystyle \operatorname {logit} (x)=\ln \left({\frac {1+x}{1-x}}\right) }$$  
+And then by scaling and normalising the values to have a mean of 0 and a standard deviation of 1. The resulting transformed values are shown in figure 2B.  
+
+
