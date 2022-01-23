@@ -3,15 +3,15 @@ title: Using Machine Learning to Predict the Correlation of Spectra Using SDSS C
 shorttitle: Predicting Correlation of Spectra Using SDSS Colour Magnitudes
 shortauthor: E. Hickey et al.
 authors:
-  - name: Eugene Hickey
-    email: eugene.hickey@tudublin.ie
-    affiliations: [1]
   - name: Thomas O'Flynn
     affiliations: [1]
   - name: Kevin Nolan
     affiliations: [1]
   - name: Oisin Creaner
     affiliations: [2]
+  - name: Eugene Hickey
+    email: eugene.hickey@tudublin.ie
+    affiliations: [1]
 affiliations:
   - number: 1
     name: Technological University Dublin, Tallaght, D24 FKT9, Dublin, Ireland

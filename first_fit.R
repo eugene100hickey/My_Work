@@ -108,8 +108,9 @@ z1$cor_logit <- z1$cor_logit[,1]
 #   ) +
 #   xlim(-5, 5) +
 #   theme_clean()
-
-
+z1 <- z1 %>% arrange(ra)
+doubles <- duplicated(z1$specobjid)
+z1 <- z1[!doubles,]
 index <- createDataPartition(z1$cor_logit, p = 0.7, list = F) %>% 
   as.integer()
 train <- z1[index,]
@@ -134,10 +135,10 @@ xgb.plot.tree(model = model_xgb$finalModel, trees = 42)
 bst <- xgboost(data = train_x[1:200,] %>% as.matrix, label = train_y$cor_logit[1:200], max_depth = 6,
                eta = 1, nthread = 2, nrounds = 2)
 
-# model_xgb <- train(x = train_x, 
-#                    y = train_y$cor_logit, 
-#                    method = "xgbTree", 
-#                    trControl = trainCtrl)
+model_xgb <- train(x = train_x,
+                   y = train_y$cor_logit,
+                   method = "xgbTree",
+                   trControl = trainCtrl)
 # Mon Apr 27 08:28:25 2020 ------------------------------
 
 
@@ -200,7 +201,7 @@ results %>%
   theme_clean()
 results %>% 
   ggplot(aes(residuals)) + 
-  geom_histogram(bins = 100) +
+  geom_histogram(bins = 30) +
   scale_color_viridis_d() +
   theme_clean() +
   theme(axis.title.y = element_blank(),
