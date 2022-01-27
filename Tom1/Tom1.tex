@@ -166,15 +166,38 @@ Differential Photometry -- Locus Algorithm -- Machine Learning -- SDSS
 \hypertarget{introduction}{%
 \section{Introduction}\label{introduction}}
 
+A wealth of astrophysics information is available through the study of
+the brightness of celestial objects as a function of time. For example,
+exoplanet detection by the transit method relies critically on
+measurements of intrinsic variability where such variability can be a
+small fraction of the total stellar brightness (Giltinan \emph{et al.}
+(2011), Everett and Howell (2001)). Ground-based observations looking
+for such variability are complicated by the effects of the Earth's
+atmosphere which causes incoherent wavelength-dependent variations in
+the stellar flux detected. This can mask intrinsic variability and
+hamper the study of variable astrophysical phenomena (Smith \emph{et
+al.} (2008)).
+
+The technique of differential photometry has been developed in an
+attempt to mitigate the effects of the Earth's atmosphere on studies of
+stellar variability. Differential photometry uses references stars at
+small angular separations from the star of interest as comparators.
+Atmospheric effects should have similar effects on the measured flux
+from all stars causing them to vary in unison (Burdanov, Krushinsky and
+Popov (2014)). Because scattering in the Earth's atmosphere is
+wavelength dependent, the technique is especially successful if the
+target star and reference stars are spectrally similar (Milone and Pel
+(2011), Sterken, Milone and Young (2011)).
+
 The Locus Algorithm (Creaner \emph{et al.} (2022)) has been used to
 create catalogues of pointings suitable for differential photometry on
 astromonical targets based on a novel technique of choosing appropriate
 reference stars (Creaner \emph{et al.} (2020) and Creaner EXO's). The
 algorithm no longer places the target in the centre of the field of view
-but in general repositions it so as to include the best set of reference
-stars. Assessment of each reference star is performed by referring to
-the sdss catalogue and the colour band magnitudes therein. These
-magnitudes can be used to infer the overall shape of the star's
+but in general, repositions it so as to include the best set of
+reference stars. Assessment of each reference star is performed by
+referring to the sdss catalogue and the colour band magnitudes therein.
+These magnitudes can be used to infer the overall shape of the star's
 spectrum. Stars that have similar spectra with be effected by scattering
 from the Earth's atmosphere to a more comparable degree that stars with
 dissimilar spectra. The original Locus Algorithm used a rational, but
@@ -219,12 +242,12 @@ calculated using the usual Pearson Correlation formula, equation
   \label{eq:correlation}
 \end{equation}
 
-where \(x_i\) refer to the flux from the first star in units of
-\(erg/cm^2/s Å\), \(y_i\) the flux from the second star. Figure
-\ref{fig:spectra} shows some pairs of stars along with their
-correlations. The first pair, A and B, are representative of the sample,
-the second pair, C and D, were chosen to have an unusually low
-correlation for this sample set.
+where \(x_i\) refer to the flux from the first star at a given
+wavelength, \(i\), in units of \(erg/cm^2/s Å\), \(y_i\) the flux from
+the second star at the same wavelength. Figure \ref{fig:spectra} shows
+some pairs of stars along with their correlations. The first pair, A and
+B, are representative of the sample. The second pair, C and D, were
+chosen to have an unusually low correlation for this sample set.
 
 \begin{figure}
   \includegraphics[width=\columnwidth, height = 8cm]{figures/spectra1}
@@ -261,8 +284,8 @@ The data is split into test and training sets, with 70\% of the data
 (3915 samples) in the training set and the remainder in the test set.
 Each set has a representative sample of correlation values, to do this
 the original sample of 5591 pairs is split into five groups based on
-percentiles of the correlation and test and train get a commensurate
-proportion of each group.
+percentiles of the correlation and both testing and training sets get a
+commensurate proportion of each group.
 
 \hypertarget{model}{%
 \section{Model}\label{model}}
@@ -355,6 +378,13 @@ analysis of gradient boosting algorithms},''} \emph{Artificial
 Intelligence Review 2020 54:3}, 54(3), pp. 1937--1967.
 doi:\href{https://doi.org/10.1007/S10462-020-09896-5}{10.1007/S10462-020-09896-5}.
 
+\leavevmode\vadjust pre{\hypertarget{ref-Burdanov2014}{}}%
+Burdanov, A.Y., Krushinsky, V.V. and Popov, A.A. (2014) {``{Astrokit-an
+Efficient Program for High-Precision Differential CCD Photometry and
+Search for Variable Stars},''} \emph{Translated from Astrofizicheskij
+Byulleten}, 69(3). Available at:
+\url{https://arxiv.org/abs/1408.0664v1}.
+
 \leavevmode\vadjust pre{\hypertarget{ref-Chen2021}{}}%
 Chen, T. and Guestrin, C. (2021) {``{Extreme Gradient Boosting {[}R
 package xgboost version 1.5.0.2{]}},''} \emph{Proceedings of the ACM
@@ -386,11 +416,38 @@ Improvement on cross-validation},''} \emph{Journal of the American
 Statistical Association}, 78(382), pp. 316--331.
 doi:\href{https://doi.org/10.1080/01621459.1983.10477973}{10.1080/01621459.1983.10477973}.
 
+\leavevmode\vadjust pre{\hypertarget{ref-Everett2001}{}}%
+Everett, M.E. and Howell, S.B. (2001) {``{A Technique for
+Ultrahigh‐Precision CCD Photometry},''} \emph{Publications of the
+Astronomical Society of the Pacific}, 113(789), pp. 1428--1435.
+doi:\href{https://doi.org/10.1086/323387/0}{10.1086/323387/0}.
+
 \leavevmode\vadjust pre{\hypertarget{ref-Friedman2000}{}}%
 Friedman, J., Hastie, T. and Tibshirani, R. (2000) {``{Additive logistic
 regression: A statistical view of boosting},''} \emph{Annals of
 Statistics}, 28(2), pp. 337--407.
 doi:\href{https://doi.org/10.1214/AOS/1016218223}{10.1214/AOS/1016218223}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-Giltinan2011}{}}%
+Giltinan, A. \emph{et al.} (2011) {``{Using EMCCD's to improve the
+photometric precision of ground-based astronomical observations},''}
+\emph{Journal of Physics: Conference Series}, 307(1).
+doi:\href{https://doi.org/10.1088/1742-6596/307/1/012010}{10.1088/1742-6596/307/1/012010}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-Milone2011a}{}}%
+Milone, E.F. and Pel, J.W. (2011) {``{The High Road to Astronomical
+Photometric Precision: Differential Photometry},''} pp. 33--68.
+doi:\href{https://doi.org/10.1007/978-1-4419-8050-2_2}{10.1007/978-1-4419-8050-2\_2}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-Smith2008}{}}%
+Smith, N. \emph{et al.} (2008) {``{EMCCD Technology in High Precision
+Photometry on Short Timescales},''} \emph{ASSL}, 351, p. 257.
+doi:\href{https://doi.org/10.1007/978-1-4020-6518-7_13}{10.1007/978-1-4020-6518-7\_13}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-Sterken2011}{}}%
+Sterken, C., Milone, E.F. and Young, A.T. (2011) {``{Photometric
+Precision and Accuracy},''} pp. 1--32.
+doi:\href{https://doi.org/10.1007/978-1-4419-8050-2_1}{10.1007/978-1-4419-8050-2\_1}.
 
 \end{CSLReferences}
 

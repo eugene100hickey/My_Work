@@ -24,14 +24,20 @@ theme_clean <- function() {
           legend.text = element_text(size = 16))
 }
 
-z1 <-
-  list.files(path = "data/", pattern = "*.csv") %>% 
-  paste0("data/", .) %>% 
-  map_df(~read_csv(.)) %>% 
-  # filter(cor > 0.5) %>% 
-  mutate(cor_logit = gtools::logit(cor, min = -1, max = 1) %>% 
-           scale())
-z1$cor_logit <- z1$cor_logit[,1]
+z1 <- readRDS("data/z_4500_clean_extra")
+z1x <- readRDS("data/z_4500_clean_extra_extra_unnormalised") %>% 
+    mutate(cor_logit = gtools::logit(cor, min = -1, max = 1) %>%
+             scale())
+names(z1x) <- names(z1)
+index <- val$specobjid %in% c(z1$specobjid, z1$specobjid1)
+# z1 <-
+#   list.files(path = "data/", pattern = "*.csv") %>% 
+#   paste0("data/", .) %>% 
+#   map_df(~read_csv(.)) %>% 
+#   # filter(cor > 0.5) %>% 
+#   mutate(cor_logit = gtools::logit(cor, min = -1, max = 1) %>% 
+#            scale())
+# z1$cor_logit <- z1$cor_logit[,1]
 
 # hist1 <- z1 %>% ggplot(aes(cor)) +
 #   geom_histogram(aes(y = ..density..), 

@@ -52,7 +52,9 @@ master_target_SqlQuery <- glue("SELECT top {N} p.ra, p.dec, ",
 master_target_SqlQuery <- str_squish(master_target_SqlQuery)
 urlBase <- "http://skyserver.sdss.org/dr15/SkyserverWS/SearchTools/SqlSearch?"
 X <- getForm(urlBase, cmd = master_target_SqlQuery, format = "csv")
-master_targets <- read.table(text = X, header = TRUE, sep = ",", dec = ".", comment.char = "#")
+master_targets <- read.table(text = X, header = TRUE, sep = ",", dec = ".", comment.char = "#") %>% 
+  mutate(objid = as.character(objid),
+         specobjid = as.character(specobjid))
 
 
 # Fri Apr 24 18:55:25 2020 ------------------------------
