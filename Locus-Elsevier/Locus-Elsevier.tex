@@ -105,11 +105,11 @@ Using SDSS Colour Magnitudes as an Improvement to the Locus Algorithm}
    \ead{kevin.nolan@tudublin.ie} 
     \author[Dublin Institute of Advanced Studies]{Oisin
 Creaner\corref{2}}
-   \ead{derek@example.com} 
+   \ead{creanero@cp.dias.ie} 
       \address[Technological University Dublin]{Department of Applied
 Science, Dublin D24FKT9}
-    \address[Dublin Institute of Advanced Studies]{Department, Street,
-City, State, Zip}
+    \address[Dublin Institute of Advanced Studies]{10 Burlington Rd,
+Dublin, D04 C932, Ireland}
       \cortext[1]{Corresponding Author}
     \cortext[2]{Equal contribution}
   
@@ -127,10 +127,13 @@ City, State, Zip}
   chosen. The correlation between the two spectra was taken to be the
   gold-standard measure of how well they match up for differential
   photometry. The five sdss magnitude values for each of these stars
-  were used as predictors. A gradient boosting model was constructed on
-  a training set of the stars and was evaluated on a testing set. The
-  dataset used, the model construction, and performance evaluation are
-  presented here.
+  were used as predictors. A number of supervised machine learning
+  models were constructed on a training set of the stars and were each
+  evaluated on a testing set. The model using Support Vector Regression
+  had the best performance of these models. It was then tested of a
+  final, hold-out, validation set of stars to get an unbiased measure of
+  its performance. The dataset used, the model constructions, and
+  performance evaluation are presented here.
   \end{abstract}
   
  \end{frontmatter}
@@ -164,7 +167,7 @@ The Locus Algorithm (Creaner et al. (2022)) has been used to create
 catalogues of pointings suitable for differential photometry on
 astromonical targets based on a novel technique of choosing appropriate
 reference stars (Creaner et al. (2020) and Creaner EXO's). The algorithm
-no longer places the target in the centre of the field of view but in
+no longer places the target in the centre of the field of view but, in
 general, repositions it so as to include the best set of reference
 stars. Assessment of each reference star is performed by referring to
 the sdss catalogue and the colour band magnitudes therein. These
@@ -181,12 +184,12 @@ of stars in sdss that have their spectra measured are used. These stars
 are paired off such that each pair has similar colour magnitude
 differences and are thus potentially a good match for differential
 photometry. This corresponds to the pre-filtering step employed by
-Creaner {[}Thesis{]} (2017). The correlation between each pairs spectra
+Creaner {[}Thesis{]} (2017). The correlation between each pair's spectra
 is calculated. This forms the basis of a goodness-of-fit between the two
 spectra. The sdss magnitudes (u, g, r, i, and z for both stars in the
-pair) are then used to train a machine learning algorithm to predict
-this goodness-of-fit. The model produced is then applied to other pairs
-of stars, the test set, to evaluate its performance. The results show a
+pair) are then used to train machine learning algorithms to predict this
+goodness-of-fit. The models produced are then applied to other pairs of
+stars, the test set, to evaluate their performance. The results show a
 significant improvement over the original ad-hoc Locus Algorithm
 routine, this model will be incorporated to future generations of the
 Locus Algorithm.

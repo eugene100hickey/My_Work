@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021) (preloaded format=pdflatex 2022.2.20)  27 MAR 2022 16:31
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021) (preloaded format=pdflatex 2022.2.20)  28 MAR 2022 20:14
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -437,41 +437,41 @@ LaTeX Info: Redefining \nameref on input line 93.
 \@outlinefile=\write4
 \openout4 = `Locus-Elsevier.out'.
 
-LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 136.
+LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 139.
 (/home/eugene/.TinyTeX/texmf-dist/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OML+lmm on input line 136.
+LaTeX Font Info:    Trying to load font information for OML+lmm on input line 139.
 (/home/eugene/.TinyTeX/texmf-dist/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 136.
+LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 139.
 (/home/eugene/.TinyTeX/texmf-dist/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 136.
+LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 139.
 (/home/eugene/.TinyTeX/texmf-dist/tex/latex/lm/omxlmex.fd
 File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 136.
+(Font)              <8> on input line 139.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 136.
+(Font)              <6> on input line 139.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 136.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 136.
+(Font)              <5> on input line 139.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 139.
 (/home/eugene/.TinyTeX/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 ) (/home/eugene/.TinyTeX/texmf-dist/tex/latex/microtype/mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 136.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 139.
 (/home/eugene/.TinyTeX/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) (/home/eugene/.TinyTeX/texmf-dist/tex/latex/microtype/mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 136.
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 139.
 (/home/eugene/.TinyTeX/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
@@ -480,59 +480,59 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 136.
+(Font)              <10> on input line 139.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 136.
+(Font)              <7> on input line 139.
 [1
 
 
 {/home/eugene/.TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2]
 
-LaTeX Warning: Command \r invalid in math mode on input line 218.
+LaTeX Warning: Command \r invalid in math mode on input line 221.
 
-<figures/spectra1.png, id=63, 903.375pt x 626.34pt>
+<figures/spectra1.png, id=59, 903.375pt x 626.34pt>
 File: figures/spectra1.png Graphic file (type png)
 <use figures/spectra1.png>
-Package pdftex.def Info: figures/spectra1.png  used on input line 225.
+Package pdftex.def Info: figures/spectra1.png  used on input line 228.
 (pdftex.def)             Requested size: 345.00911pt x 227.62302pt.
-<figures/spectra2.png, id=64, 903.375pt x 626.34pt>
+<figures/spectra2.png, id=60, 903.375pt x 626.34pt>
 File: figures/spectra2.png Graphic file (type png)
 <use figures/spectra2.png>
-Package pdftex.def Info: figures/spectra2.png  used on input line 226.
+Package pdftex.def Info: figures/spectra2.png  used on input line 229.
 (pdftex.def)             Requested size: 345.00911pt x 227.62302pt.
-<figures/histograms.png, id=68, 903.375pt x 626.34pt>
+<figures/histograms.png, id=64, 903.375pt x 626.34pt>
 File: figures/histograms.png Graphic file (type png)
 <use figures/histograms.png>
-Package pdftex.def Info: figures/histograms.png  used on input line 250.
+Package pdftex.def Info: figures/histograms.png  used on input line 253.
 (pdftex.def)             Requested size: 345.00911pt x 142.2584pt.
-<figures/tree.png, id=70, 1196.47pt x 675.52374pt>
+<figures/tree.png, id=66, 1196.47pt x 675.52374pt>
 File: figures/tree.png Graphic file (type png)
 <use figures/tree.png>
-Package pdftex.def Info: figures/tree.png  used on input line 279.
+Package pdftex.def Info: figures/tree.png  used on input line 282.
 (pdftex.def)             Requested size: 344.9957pt x 184.93983pt.
-[3] [4 <./figures/spectra1.png> <./figures/spectra2.png>] [5 <./figures/histograms.png> <./figures/tree.png>]
-<figures/observed-predicted.png, id=99, 903.375pt x 626.34pt>
+[3] [4 <./figures/spectra1.png> <./figures/spectra2.png>]
+<figures/observed-predicted.png, id=92, 903.375pt x 626.34pt>
 File: figures/observed-predicted.png Graphic file (type png)
 <use figures/observed-predicted.png>
-Package pdftex.def Info: figures/observed-predicted.png  used on input line 305.
+Package pdftex.def Info: figures/observed-predicted.png  used on input line 308.
 (pdftex.def)             Requested size: 345.00911pt x 184.94072pt.
-<figures/residuals-predicted.png, id=100, 903.375pt x 626.34pt>
+<figures/residuals-predicted.png, id=93, 903.375pt x 626.34pt>
 File: figures/residuals-predicted.png Graphic file (type png)
 <use figures/residuals-predicted.png>
-Package pdftex.def Info: figures/residuals-predicted.png  used on input line 311.
+Package pdftex.def Info: figures/residuals-predicted.png  used on input line 314.
 (pdftex.def)             Requested size: 345.00911pt x 184.94072pt.
-<figures/residuals-hist.png, id=101, 903.375pt x 626.34pt>
+<figures/residuals-hist.png, id=94, 903.375pt x 626.34pt>
 File: figures/residuals-hist.png Graphic file (type png)
 <use figures/residuals-hist.png>
-Package pdftex.def Info: figures/residuals-hist.png  used on input line 317.
+Package pdftex.def Info: figures/residuals-hist.png  used on input line 320.
 (pdftex.def)             Requested size: 345.00911pt x 184.94072pt.
-<figures/residuals-qq.png, id=102, 903.375pt x 626.34pt>
+<figures/residuals-qq.png, id=95, 903.375pt x 626.34pt>
 File: figures/residuals-qq.png Graphic file (type png)
 <use figures/residuals-qq.png>
-Package pdftex.def Info: figures/residuals-qq.png  used on input line 323.
+Package pdftex.def Info: figures/residuals-qq.png  used on input line 326.
 (pdftex.def)             Requested size: 345.00911pt x 184.94072pt.
-[6 <./figures/observed-predicted.png (PNG copy)>] [7 <./figures/residuals-predicted.png (PNG copy)> <./figures/residuals-hist.png>] [8 <./figures/residuals-qq.png>]
-Overfull \hbox (42.3947pt too wide) in paragraph at lines 441--446
+[5 <./figures/histograms.png>] [6 <./figures/tree.png> <./figures/observed-predicted.png (PNG copy)>] [7 <./figures/residuals-predicted.png (PNG copy)> <./figures/residuals-hist.png>] [8 <./figures/residuals-qq.png>]
+Overfull \hbox (42.3947pt too wide) in paragraph at lines 444--449
 \T1/lmr/m/n/10 (-20) tis-ti-cal view of boost-ing. An-nals of Statis-tics 28, 337--407. doi:[]10.1214/AOS/1016218223[] 
  []
 
@@ -541,15 +541,15 @@ Package rerunfilecheck Info: File `Locus-Elsevier.out' has not changed.
 (rerunfilecheck)             Checksum: F6E2920612FA5C3700D097EBF73C6975;702.
  ) 
 Here is how much of TeX's memory you used:
- 12840 strings out of 480238
- 203836 string characters out of 5895672
- 517331 words of memory out of 5000000
+ 12838 strings out of 480238
+ 203814 string characters out of 5895672
+ 518333 words of memory out of 5000000
  30380 multiletter control sequences out of 15000+600000
- 523319 words of font info for 130 fonts, out of 8000000 for 9000
+ 523236 words of font info for 129 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  70i,9n,76p,1011b,375s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/home/eugene/.TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}{/home/eugene/.TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/home/eugene/.TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/home/eugene/.TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/home/eugene/.TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}</home/eugene/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></home/eugene/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmex10.pfb></home/eugene/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></home/eugene/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi7.pfb></home/eugene/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb></home/eugene/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb></home/eugene/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmr7.pfb></home/eugene/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmr8.pfb></home/eugene/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmri7.pfb></home/eugene/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmri8.pfb></home/eugene/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></home/eugene/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy6.pfb></home/eugene/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy7.pfb></home/eugene/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt8.pfb>
-Output written on Locus-Elsevier.pdf (10 pages, 959919 bytes).
+Output written on Locus-Elsevier.pdf (10 pages, 961201 bytes).
 PDF statistics:
  245 PDF objects out of 1000 (max. 8388607)
  188 compressed objects within 2 object streams
