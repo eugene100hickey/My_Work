@@ -1,4 +1,5 @@
 # https://blog.devgenius.io/ensemble-models-using-caret-in-r-d54e4e646968
+# https://rviews.rstudio.com/2019/06/19/a-gentle-intro-to-tidymodels/
 
 library(tidyverse)
 library(caret)
@@ -36,15 +37,19 @@ theme_clean <- function() {
 # doubles <- duplicated(z1$specobjid)
 # z1 <- z1[!doubles,]
 
-z1 <- readRDS("data/z_2500_no_doubles") %>% 
+z1 <- readRDS("data/z_4500_clean_extra") %>% 
   drop_na()
+z1_extra <- readRDS("data/z_4500_clean_extra_extra_unnormalised") %>% 
+  mutate(cor_logit = gtools::logit(cor, min = -1, max = 1) %>%
+           scale())
+names(z1_extra) <- names(z1)
 
-tr <- trainControl(method = "repeatedcv",
-                   number = 20,
-                   repeats = 10)
-tr1 <- trainControl(method = "boot632",number =1000)
+# tr <- trainControl(method = "repeatedcv",
+#                    number = 20,
+#                    repeats = 10)
+# tr1 <- trainControl(method = "boot632",number =1000)
 
-set.seed(998)
+# set.seed(998)
 # cl <- makePSOCKcluster(4)
 # registerDoParallel(cl)
 ## Create Training & Test data
@@ -56,8 +61,11 @@ y = training$cor_logit
 
 ### First the Linear Regression using AIC step-wise selection.
 
-lm1 <- train(cor_logit~., data=training, 
-             method = "lmStepAIC",trControl=tr)
+# Wed Mar  2 11:32:44 2022 ------------------------------
+
+# lm1 <- train(cor_logit~., data=training, 
+#              method = "lmStepAIC",trControl=tr)
+lm1 <- readRDS("models/devgenius/lm1")
 summary(lm1)
 fitted <- predict(lm1)
 lmpred1<-predict(lm1, testing)
@@ -77,9 +85,10 @@ ggplot(lm1values, aes(obs,pred, colour=res)) +
 
 ### Next up is the random forest model. I am just using standard grid searches to get the model going.
 
-tg <- data.frame(mtry = seq(2, 10, by =2))
-rf1 <- train(cor_logit~., data = training, 
-             method = "rf",trControl=tr, tuneGrid = tg) 
+# tg <- data.frame(mtry = seq(2, 10, by =2))
+# rf1 <- train(cor_logit~., data = training, 
+#              method = "rf",trControl=tr, tuneGrid = tg) 
+rf1 <- readRDS("models/devgenius/rf1")
 rf1$results
 class(rf1)
 attributes(rf1)
@@ -96,21 +105,22 @@ ggplot(rf1values, aes(obs,pred,colour=res)) +
   geom_smooth(se=FALSE,colour="red", linetype="dashed", size=0.5)+ 
   geom_abline(slope=1, linetype="dashed")
 
-
+qqplot(rf1values$pred, rf1values$obs)
 
 ### Then, the Multivariate Adaptive Regression Splines.
 
 marsgrid<-expand.grid(.degree = 1:2, .nprune = 2:38)
-set.seed(100)
-mars1 <- train(cor_logit~., data = training, 
-               method = "earth",
-               preProcess = c("center", "scale"),
-               trControl=tr, 
-               tuneGrid = marsgrid)
+
+# mars1 <- train(cor_logit~., data = training, 
+#                method = "earth",
+#                preProcess = c("center", "scale"),
+#                trControl=tr, 
+#                tuneGrid = marsgrid)
+mars1 <- readRDS("models/devgenius/mars1")
 plot(varImp(mars1))
-defaultSummary(mars1)
+# defaultSummary(mars1)
 mars1pred<-predict(mars1, testing)
-mars1pred<-mars1pred[1:317,]
+# mars1pred<-mars1pred[1:317,]
 mars1values<-tibble(obs=testing$cor_logit,
                         pred=mars1pred, 
                         res=mars1pred-testing$cor_logit)
@@ -123,14 +133,14 @@ ggplot(mars1values, aes(obs,
   geom_abline(slope=1, linetype="dashed") 
 featurePlot(mars1values$obs, mars1values$pred)
 
-testing$pred<-predict(mars1, testing)
-
+defaultSummary(mars1values)
 
 ## Penalized regression
 
-pm1 <- train(cor_logit~., data = training, 
-             preProcess = c("center", "scale"),
-             method = "glmnet", trControl = tr)
+# pm1 <- train(cor_logit~., data = training, 
+#              preProcess = c("center", "scale"),
+#              method = "glmnet", trControl = tr)
+pm1 <- readRDS("models/devgenius/pm1")
 arrange(pm1$results, RMSE) %>% head
 pm1$bestTune
 pm1pred<-predict(pm1, testing)
@@ -148,11 +158,12 @@ ggplot(pm1values, aes(obs,pred, colour=res)) +
 
 enetgrid<-expand.grid(.lambda=c(0,0.01,.1),
                       .fraction = seq(0.5, 1 , length=20))
-enet1 <- train(cor_logit~., data = training, 
-               preProcess = c("center", "scale"),
-               method = "enet", 
-               tuneGrid=enetgrid,
-               trControl = tr)
+# enet1 <- train(cor_logit~., data = training, 
+#                preProcess = c("center", "scale"),
+#                method = "enet", 
+#                tuneGrid=enetgrid,
+#                trControl = tr)
+enet1 <- readRDS("models/devgenius/enet1")
 plot(enet1)
 enet1pred<-predict(enet1, testing)
 enet1values<-data.frame(obs=testing$cor_logit, 
@@ -170,18 +181,25 @@ ggplot(enet1values, aes(obs,
 
 ## SVM
 
-set.seed(100)
-svm1 <- train(cor_logit~., data = training,
-              preProcess = c("center", "scale"),
-              method = "svmRadial",
-              tuneLength=14,
-              trControl=tr)
+set.seed(42)
+# tuneGrid <- expand.grid(
+#   C = c(0.25, .5, 1),
+#   sigma = 0.1
+# )
+# svm1 <- train(cor_logit~., data = training,
+#               preProcess = c("center", "scale"),
+#               method = "svmRadial",
+#               tuneLength=14,
+#               trControl=tr,
+#               tuneGrid = tuneGrid)
+svm1 <- readRDS("models/devgenius/svm1")
 svm1
 plot(svm1)
 svm1pred<-predict(svm1, testing)
 svm1values<-data.frame(obs=testing$cor_logit, 
                        pred=svm1pred, 
                        res=svm1pred-testing$cor_logit)
+yardstick::metrics(data = svm1values, truth = obs, estimate = pred)
 defaultSummary(svm1values)
 theme_set(theme_bw())
 ggplot(svm1values, aes(obs,
@@ -190,16 +208,27 @@ ggplot(svm1values, aes(obs,
   geom_point(alpha=0.9) + 
   geom_smooth(se=FALSE,colour="red", linetype="dashed", size=0.5)+ 
   geom_abline(slope=1, linetype="dashed")
+svm1values |> 
+  ggplot(aes(res)) +
+  geom_histogram(aes(y = ..density..),
+                 colour = 1, fill = "white", bins = 50) +
+  geom_density(lwd = 0.5, colour = 4,
+               fill = 4, alpha = 0.25) +
+  theme_clean() +
+  theme(axis.title.y = element_blank(),
+        axis.text.y = element_blank())
 
+qqplot(svm1values$pred, svm1values$obs)
 
 ##  Gradient Boosting
 
-tg <- expand.grid(shrinkage = seq(0.1, 1, by = 0.2), 
-                  interaction.depth = c(1, 3, 7, 10),
-                  n.minobsinnode = c(2, 5, 10),
-                  n.trees = c(100, 300, 500, 1000))
-gbm1<- train(cor_logit~., data = training, 
-             method = "gbm", trControl = tr, tuneGrid =tg, verbose = FALSE)
+# tg <- expand.grid(shrinkage = seq(0.1, 1, by = 0.2), 
+#                   interaction.depth = c(1, 3, 7, 10),
+#                   n.minobsinnode = c(2, 5, 10),
+#                   n.trees = c(100, 300, 500, 1000))
+# gbm1<- train(cor_logit~., data = training, 
+#              method = "gbm", trControl = tr, tuneGrid =tg, verbose = FALSE)
+gbm1 <- readRDS("models/devgenius/gbm1")
 plot(gbm1)
 gbm1pred<-predict(gbm1, testing)
 gbm1values<-data.frame(obs=testing$cor_logit, 
@@ -213,6 +242,7 @@ ggplot(gbm1values, aes(obs,
   geom_point(alpha=0.9) + 
   geom_smooth(se=FALSE,colour="red", linetype="dashed", size=0.5)+ 
   geom_abline(slope=1, linetype="dashed")
+qqplot(gbm1values$pred, gbm1values$obs)
 
 ## COMPARE MODELS
 
@@ -270,3 +300,4 @@ ggplot(stackvalues, aes(obs,pred, colour=res)) +
   geom_point(alpha=0.5) + 
   geom_smooth(method=lm, se=FALSE,colour="red", linetype="dashed", size=0.5)+ 
   geom_abline(slope=1, linetype="dashed")
+
