@@ -172,7 +172,7 @@ general, repositions it so as to include the best set of reference
 stars. Assessment of each reference star is performed by referring to
 the sdss catalogue and the colour band magnitudes therein. These
 magnitudes can be used to infer the overall shape of the star's
-spectrum. Stars that have similar spectra with be effected by scattering
+spectrum. Stars that have similar spectra will be effected by scattering
 from the Earth's atmosphere to a more comparable degree that stars with
 dissimilar spectra. The original Locus Algorithm used a rational, but
 ad-hoc, method to estimate the correlation of stellar spectra based on
@@ -197,14 +197,14 @@ Locus Algorithm.
 \hypertarget{data}{%
 \section{Data}\label{data}}
 
-This work uses 5591 stellar spectra from the SDSS SEGUE and BOSS
-observations and their physical parameters from the 13th SDSS data
-release (Aguado et al. (2018)). The spectra are clipped to just the
+This work uses 3556 stellar spectra from the SDSS SEGUE and BOSS
+observations and their physical parameters from the \(13^{th}\) SDSS
+data release (Aguado et al. (2018)). The spectra are clipped to just the
 wavelengths contained in the sdss r band (between 550nm and 700nm).
 Stars are paired off based on their sdss colour magnitudes so that both
 stars in a pair are of similar colour. Specifically, both
 \((g_1-r_1)-(g_2-r_2)\) and \((r_1-i_1)-(r_2-i_2)\) will be between 0
-and 0.1. This ensures that these stars would be realistic matches for
+and 0.3. This ensures that these stars would be realistic matches for
 differential photometry. In addition, stars were chosen that had r
 colour magnitude values between 15 and 20. The SQL queries used to
 download physical parameters and the spectra are given in the
@@ -218,11 +218,12 @@ calculated using the usual Pearson Correlation formula, equation
 \end{equation}
 
 where \(x_i\) refer to the flux from the first star at a given
-wavelength, \(i\), in units of \(erg/cm^2/s Å\), \(y_i\) the flux from
-the second star at the same wavelength. Figure \ref{fig:spectra} shows
-some pairs of stars along with their correlations. The first pair, A and
-B, are representative of the sample. The second pair, C and D, were
-chosen to have an unusually low correlation for this sample set.
+wavelength, \(i\), in units of \(erg/cm^2/s Å\), \(y_i\) refer to the
+flux from the second star at the same wavelength. Figure
+\ref{fig:spectra} shows some pairs of stars along with their
+correlations. The first pair, A and B, are representative of the sample.
+The second pair, C and D, were chosen to have an unusually low
+correlation for this sample set.
 
 \begin{figure}
   \includegraphics[width=\columnwidth, height = 8cm]{figures/spectra1}
@@ -256,25 +257,61 @@ figure \ref{fig:histograms}B.
 \end{figure}
 
 The data is split into test and training sets, with 70\% of the data
-(3915 samples) in the training set and the remainder in the test set.
-Each set has a representative sample of correlation values, to do this
-the original sample of 5591 pairs is split into five groups based on
-percentiles of the correlation and both testing and training sets get a
-commensurate proportion of each group.
+(2668 samples) in the training set and the remainder (888 samples) in
+the test set. Each set has a representative sample of correlation
+values, to do this the original sample of 3556 pairs is split into five
+groups based on percentiles of the correlation and both testing and
+training sets get a commensurate proportion of each group. A additional,
+completely independent set of 526 pairs of stars are used for final
+validation of the chosen model.
 
-\hypertarget{model}{%
-\section{Model}\label{model}}
+\hypertarget{models}{%
+\section{Models}\label{models}}
 
-A regression model was built on the training set, using the ugriz values
-for both stars in each pair as predictors for the logit(correlation)
-value. An eXtreme Gradient Boosting model (Friedman et al. (2000), Chen
-and Guestrin (2021)) was used. This was chosen because of its
-performance and reliability (Bentéjac et al. (2020)). Cross validation
-was performed using a bootstrap method (Efron (1983)). The model was fit
-with the maximum number of boosting iterations set to 150, the learning
-rate set to 0.3, the maximum tree depth set to 3. It was set to minimise
-the RMSE on the training set. The final model fit was produced after 106
-iterations.
+Four types of machine learning algorithms were used: support vector
+regression (SVR), random forrest (RF), extreme gradient boosting (XGB),
+and a generalised additive model (GAM). In each of the four cases, a
+model was built on the training set, using the ugriz values for both
+stars in each pair as predictors for the logit(correlation) value. Cross
+validation, 20-fold repeated 10 times, was used to minimise model bias.
+Hyperparameters for each model were tuned. The results for RMSE, MAE,
+and \(R^2\) for all models are given in \ref{tab:models}.The details are
+given below:
+
+\begin{itemize}
+\item
+  \emph{Support Vector Regression} This used a radial basis kernal
+  function (Karatzoglou2004). A grid search on the hyperparameters Cost
+  (C) and sigma (\(\sigma\)) was undertaken for values 8 \textless{} C
+  \textless{} 25 and 0.08 \textless{} \(\sigma\) \textless{} 0.20. The
+  model was optimised based on the RMSE of the training set. The best
+  tune was obtained for C = 20 and \(\sigma\) = 0.12.
+\item
+  \emph{Stochastic Gradient Boosting} This used a radial basis kernal
+  function (Boehmke2019). A grid search on the hyperparameters Number of
+  Boosting Iterations (n.trees), Maximum Tree Depth (interaction.depth),
+  Shrinkage (shrinkage), and Minimum Terminal Node Size (n.minobsinnode)
+  was undertaken. The model was optimised based on the RMSE of the
+  training set. The best tune was obtained for n.trees = 100,
+  interaction.depth = 10, shrinkage = 0.1 and n.minobsinnode = 10.
+\item
+  \emph{Random Forrest} This used a radial basis kernal function
+  (Boehmke2019). A grid search on the hyperparameters Number of Boosting
+  Iterations (n.trees), Maximum Tree Depth (interaction.depth),
+  Shrinkage (shrinkage), and Minimum Terminal Node Size (n.minobsinnode)
+  was undertaken. The model was optimised based on the RMSE of the
+  training set. The best tune was obtained for n.trees = 100,
+  interaction.depth = 10, shrinkage = 0.1 and n.minobsinnode = 10.
+\end{itemize}
+
+A regression model was built on the training set. An eXtreme Gradient
+Boosting model (Friedman et al. (2000), Chen and Guestrin (2021)) was
+used. This was chosen because of its performance and reliability
+(Bentéjac et al. (2020)). Cross validation was performed using a
+bootstrap method (Efron (1983)). The model was fit with the maximum
+number of boosting iterations set to 150, the learning rate set to 0.3,
+the maximum tree depth set to 3. It was set to minimise the RMSE on the
+training set. The final model fit was produced after 106 iterations.
 
 One of the 150 trees produced is shown in figure \ref{fig:tree}.
 

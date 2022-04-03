@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021) (preloaded format=pdflatex 2022.2.20)  28 MAR 2022 20:14
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021) (preloaded format=pdflatex 2022.2.20)  3 APR 2022 14:06
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -490,69 +490,79 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 
 LaTeX Warning: Command \r invalid in math mode on input line 221.
 
-<figures/spectra1.png, id=59, 903.375pt x 626.34pt>
+<figures/spectra1.png, id=61, 903.375pt x 626.34pt>
 File: figures/spectra1.png Graphic file (type png)
 <use figures/spectra1.png>
-Package pdftex.def Info: figures/spectra1.png  used on input line 228.
+Package pdftex.def Info: figures/spectra1.png  used on input line 229.
 (pdftex.def)             Requested size: 345.00911pt x 227.62302pt.
-<figures/spectra2.png, id=60, 903.375pt x 626.34pt>
+<figures/spectra2.png, id=62, 903.375pt x 626.34pt>
 File: figures/spectra2.png Graphic file (type png)
 <use figures/spectra2.png>
-Package pdftex.def Info: figures/spectra2.png  used on input line 229.
+Package pdftex.def Info: figures/spectra2.png  used on input line 230.
 (pdftex.def)             Requested size: 345.00911pt x 227.62302pt.
-<figures/histograms.png, id=64, 903.375pt x 626.34pt>
+<figures/histograms.png, id=66, 903.375pt x 626.34pt>
 File: figures/histograms.png Graphic file (type png)
 <use figures/histograms.png>
-Package pdftex.def Info: figures/histograms.png  used on input line 253.
+Package pdftex.def Info: figures/histograms.png  used on input line 254.
 (pdftex.def)             Requested size: 345.00911pt x 142.2584pt.
-<figures/tree.png, id=66, 1196.47pt x 675.52374pt>
+
+LaTeX Warning: Reference `tab:models' on page 3 undefined on input line 278.
+
+[3] [4 <./figures/spectra1.png> <./figures/spectra2.png>]
+LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 283.
+(/home/eugene/.TinyTeX/texmf-dist/tex/latex/lm/ts1lmr.fd
+File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+) [5 <./figures/histograms.png>]
+<figures/tree.png, id=94, 1196.47pt x 675.52374pt>
 File: figures/tree.png Graphic file (type png)
 <use figures/tree.png>
-Package pdftex.def Info: figures/tree.png  used on input line 282.
+Package pdftex.def Info: figures/tree.png  used on input line 319.
 (pdftex.def)             Requested size: 344.9957pt x 184.93983pt.
-[3] [4 <./figures/spectra1.png> <./figures/spectra2.png>]
-<figures/observed-predicted.png, id=92, 903.375pt x 626.34pt>
+<figures/observed-predicted.png, id=99, 903.375pt x 626.34pt>
 File: figures/observed-predicted.png Graphic file (type png)
 <use figures/observed-predicted.png>
-Package pdftex.def Info: figures/observed-predicted.png  used on input line 308.
+Package pdftex.def Info: figures/observed-predicted.png  used on input line 345.
 (pdftex.def)             Requested size: 345.00911pt x 184.94072pt.
-<figures/residuals-predicted.png, id=93, 903.375pt x 626.34pt>
+<figures/residuals-predicted.png, id=100, 903.375pt x 626.34pt>
 File: figures/residuals-predicted.png Graphic file (type png)
 <use figures/residuals-predicted.png>
-Package pdftex.def Info: figures/residuals-predicted.png  used on input line 314.
+Package pdftex.def Info: figures/residuals-predicted.png  used on input line 351.
 (pdftex.def)             Requested size: 345.00911pt x 184.94072pt.
-<figures/residuals-hist.png, id=94, 903.375pt x 626.34pt>
+<figures/residuals-hist.png, id=101, 903.375pt x 626.34pt>
 File: figures/residuals-hist.png Graphic file (type png)
 <use figures/residuals-hist.png>
-Package pdftex.def Info: figures/residuals-hist.png  used on input line 320.
+Package pdftex.def Info: figures/residuals-hist.png  used on input line 357.
 (pdftex.def)             Requested size: 345.00911pt x 184.94072pt.
-<figures/residuals-qq.png, id=95, 903.375pt x 626.34pt>
+<figures/residuals-qq.png, id=102, 903.375pt x 626.34pt>
 File: figures/residuals-qq.png Graphic file (type png)
 <use figures/residuals-qq.png>
-Package pdftex.def Info: figures/residuals-qq.png  used on input line 326.
+Package pdftex.def Info: figures/residuals-qq.png  used on input line 363.
 (pdftex.def)             Requested size: 345.00911pt x 184.94072pt.
-[5 <./figures/histograms.png>] [6 <./figures/tree.png> <./figures/observed-predicted.png (PNG copy)>] [7 <./figures/residuals-predicted.png (PNG copy)> <./figures/residuals-hist.png>] [8 <./figures/residuals-qq.png>]
-Overfull \hbox (42.3947pt too wide) in paragraph at lines 444--449
+[6 <./figures/tree.png>] [7 <./figures/observed-predicted.png (PNG copy)> <./figures/residuals-predicted.png (PNG copy)>] [8 <./figures/residuals-hist.png> <./figures/residuals-qq.png>] [9]
+Overfull \hbox (42.3947pt too wide) in paragraph at lines 481--486
 \T1/lmr/m/n/10 (-20) tis-ti-cal view of boost-ing. An-nals of Statis-tics 28, 337--407. doi:[]10.1214/AOS/1016218223[] 
  []
 
-[9] [10] (./Locus-Elsevier.aux)
+[10] (./Locus-Elsevier.aux)
+
+LaTeX Warning: There were undefined references.
+
 Package rerunfilecheck Info: File `Locus-Elsevier.out' has not changed.
-(rerunfilecheck)             Checksum: F6E2920612FA5C3700D097EBF73C6975;702.
+(rerunfilecheck)             Checksum: 507EAC51A9FCFF2F57828182F4D3D13E;707.
  ) 
 Here is how much of TeX's memory you used:
- 12838 strings out of 480238
- 203814 string characters out of 5895672
- 518333 words of memory out of 5000000
- 30380 multiletter control sequences out of 15000+600000
- 523236 words of font info for 129 fonts, out of 8000000 for 9000
+ 12894 strings out of 480238
+ 204962 string characters out of 5895672
+ 518334 words of memory out of 5000000
+ 30417 multiletter control sequences out of 15000+600000
+ 528597 words of font info for 138 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 70i,9n,76p,1011b,375s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/home/eugene/.TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}{/home/eugene/.TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/home/eugene/.TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/home/eugene/.TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/home/eugene/.TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}</home/eugene/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></home/eugene/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmex10.pfb></home/eugene/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></home/eugene/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi7.pfb></home/eugene/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb></home/eugene/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb></home/eugene/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmr7.pfb></home/eugene/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmr8.pfb></home/eugene/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmri7.pfb></home/eugene/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmri8.pfb></home/eugene/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></home/eugene/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy6.pfb></home/eugene/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy7.pfb></home/eugene/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt8.pfb>
-Output written on Locus-Elsevier.pdf (10 pages, 961201 bytes).
+ 70i,9n,76p,1011b,405s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/home/eugene/.TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/home/eugene/.TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}{/home/eugene/.TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}{/home/eugene/.TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/home/eugene/.TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/home/eugene/.TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}</home/eugene/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></home/eugene/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmex10.pfb></home/eugene/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></home/eugene/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi7.pfb></home/eugene/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb></home/eugene/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb></home/eugene/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmr7.pfb></home/eugene/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmr8.pfb></home/eugene/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmri10.pfb></home/eugene/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmri7.pfb></home/eugene/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmri8.pfb></home/eugene/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></home/eugene/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy6.pfb></home/eugene/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy7.pfb></home/eugene/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt8.pfb>
+Output written on Locus-Elsevier.pdf (10 pages, 981298 bytes).
 PDF statistics:
- 245 PDF objects out of 1000 (max. 8388607)
- 188 compressed objects within 2 object streams
+ 254 PDF objects out of 1000 (max. 8388607)
+ 194 compressed objects within 2 object streams
  53 named destinations out of 1000 (max. 500000)
- 27233 words of extra memory for PDF output out of 29859 (max. 10000000)
+ 31329 words of extra memory for PDF output out of 35830 (max. 10000000)
 
