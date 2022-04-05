@@ -113,9 +113,47 @@ Four types of machine learning algorithms were used: support vector regression (
 
 A regression model was built on the training set. An eXtreme Gradient Boosting model (@Friedman2000, @Chen2021) was used. This was chosen because of its performance and reliability (@Bentejac2020). Cross validation was performed using a bootstrap method (@Efron1983). The model was fit with the maximum number of boosting iterations set to 150, the learning rate set to 0.3, the maximum tree depth set to 3. It was set to minimise the RMSE on the training set. The final model fit was produced after 106 iterations.
 
-<!-- # Model Evaluation -->
+# Model Evaluation
 
-<!-- The table below gives the values for RMSE, MAE, and $R^2$ for each of the four values as they applied to the test set. -->
+The table below gives the values for RMSE, MAE, and $R^2$ for each of the four values as they applied to the test set.
+
+\begin{table}
+  \centering
+  \caption{A stunning table}
+  \label{tbl:model-table}
+  \includegraphics[width=6cm]{figures/model-values-test}
+\end{table}
+
+```{r echo = F, message = F, warning = F}
+# library(tidyverse)
+# library(gt)
+# 
+# 
+# # SVR, GBM, RF, LM
+# 
+# zq <- tribble(~models, ~RMSE, ~Rsquared, ~MAE,
+#               "SVR", 0.5543971, 0.6929413, 0.3937136, 
+#               "GBM", 0.5840478, 0.6545808, 0.4225466,
+#               "RF", 0.5896328, 0.6480536, 0.4273223,
+#               "LM", 0.6393757, 0.5870244, 0.4804900 
+#               )
+# 
+# 
+# zq |> 
+#   # mutate(RMSE = round(RMSE, 3),
+#   #        Rsquared = round(Rsquared, 3),
+#   #        MAE = round(MAE, 3)) |> 
+#   gt(rowname_col = "models") |> 
+#   fmt_number(
+#     columns = 1:4,
+#     decimals = 3,
+#     suffixing = TRUE
+#   ) |> 
+#   cols_label(RMSE = md("RMSE"),
+#              Rsquared = md("R<sup>2</sup>"),
+#              MAE = md("MAE"))
+```
+
 
 <!-- \begin{center} -->
 <!--   \begin{table} -->
@@ -126,57 +164,57 @@ A regression model was built on the training set. An eXtreme Gradient Boosting m
 <!--   \end{figure} -->
 <!-- \end{center} -->
 
-<!-- The model was then used to predict the logit correlation values from the 1676 star pairs from the test set. Figure \ref{fig:obs-pred} shows the resulting values of observed logit correlation values against predicted logit correlation values. Figure \ref{fig:residuals-pred} shows the resulting values of the residuals, the observations minus the predicted values, against predicted logit correlation values. Figure \ref{fig:residuals-hist} shows a histogram of the residual values, figure \ref{fig:residuals-qq} shows a quantile-quantile (QQ) plot of the residuals. The shape of this last plot shows the residuals to be somewhat platykurtic which is acceptable for a machine learning fit (ref???). -->
+The model was then used to predict the logit correlation values from the 1676 star pairs from the test set. Figure \ref{fig:obs-pred} shows the resulting values of observed logit correlation values against predicted logit correlation values. Figure \ref{fig:residuals-pred} shows the resulting values of the residuals, the observations minus the predicted values, against predicted logit correlation values. Figure \ref{fig:residuals-hist} shows a histogram of the residual values, figure \ref{fig:residuals-qq} shows a quantile-quantile (QQ) plot of the residuals. The shape of this last plot shows the residuals to be somewhat platykurtic which is acceptable for a machine learning fit (ref???).
 
-<!-- The $R^2$ value of predicted logit correlation on the test set was found to be 71%. The RMSE on the test set was found to be 0.55. The performance of the original function used in @creaner2022 was worse, with an $R^2$ of 13%. -->
+The $R^2$ value of predicted logit correlation on the test set was found to be 71%. The RMSE on the test set was found to be 0.55. The performance of the original function used in @creaner2022 was worse, with an $R^2$ of 13%.
 
-<!-- \begin{figure} -->
-<!--   \includegraphics[width=\columnwidth, height = 6.5cm]{figures/observed-predicted} -->
-<!--     \caption{Observed versus predicted logit correlation values} -->
-<!--     \label{fig:obs-pred} -->
-<!-- \end{figure} -->
+\begin{figure}
+  \includegraphics[width=\columnwidth, height = 6.5cm]{figures/observed-predicted}
+    \caption{Observed versus predicted logit correlation values}
+    \label{fig:obs-pred}
+\end{figure}
 
-<!-- \begin{figure} -->
-<!--   \includegraphics[width=\columnwidth, height = 6.5cm]{figures/residuals-predicted} -->
-<!--     \caption{Residuals versus predicted logit correlation values} -->
-<!--     \label{fig:residuals-pred} -->
-<!-- \end{figure} -->
+\begin{figure}
+  \includegraphics[width=\columnwidth, height = 6.5cm]{figures/residuals-predicted}
+    \caption{Residuals versus predicted logit correlation values}
+    \label{fig:residuals-pred}
+\end{figure}
 
-<!-- \begin{figure} -->
-<!--   \includegraphics[width=\columnwidth, height = 6.5cm]{figures/residuals-hist} -->
-<!--     \caption{Observed versus predicted logit correlation values} -->
-<!--     \label{fig:residuals-hist} -->
-<!-- \end{figure} -->
+\begin{figure}
+  \includegraphics[width=\columnwidth, height = 6.5cm]{figures/residuals-hist}
+    \caption{Observed versus predicted logit correlation values}
+    \label{fig:residuals-hist}
+\end{figure}
 
-<!-- \begin{figure} -->
-<!--   \includegraphics[width=\columnwidth, height = 6.5cm]{figures/residuals-qq} -->
-<!--     \caption{Observed versus predicted logit correlation values} -->
-<!--     \label{fig:residuals-qq} -->
-<!-- \end{figure} -->
-
-
+\begin{figure}
+  \includegraphics[width=\columnwidth, height = 6.5cm]{figures/residuals-qq}
+    \caption{Observed versus predicted logit correlation values}
+    \label{fig:residuals-qq}
+\end{figure}
 
 
-<!-- <!-- \begin{table} --> -->
-<!-- <!--   \centering --> -->
-<!-- <!--   \caption{This is an example table. Captions appear above each table. --> -->
-<!-- <!--   Remember to define the quantities, symbols and units used.} --> -->
-<!-- <!--   \label{tab:example_table} --> -->
-<!-- <!--   \begin{tabular}{lccr} % four columns, alignment for each --> -->
-<!-- <!--     \hline --> -->
-<!-- <!--     A & B & C & D\\ --> -->
-<!-- <!--     \hline --> -->
-<!-- <!--     1 & 2 & 3 & 4\\ --> -->
-<!-- <!--     2 & 4 & 6 & 8\\ --> -->
-<!-- <!--     3 & 5 & 7 & 9\\ --> -->
-<!-- <!--     \hline --> -->
-<!-- <!--   \end{tabular} --> -->
-<!-- <!-- \end{table} --> -->
 
-<!-- # Conclusions -->
 
-<!-- The last numbered section should briefly summarise what has been done, and -->
-<!-- describe the final conclusions which the authors draw from their work. -->
+\begin{table}
+  \centering
+  \caption{This is an example table. Captions appear above each table.
+  Remember to define the quantities, symbols and units used.}
+  \label{tab:example_table}
+  \begin{tabular}{lccr} % four columns, alignment for each
+    \hline
+    A & B & C & D\\
+    \hline
+    1 & 2 & 3 & 4\\
+    2 & 4 & 6 & 8\\
+    3 & 5 & 7 & 9\\
+    \hline
+  \end{tabular}
+\end{table}
+
+# Conclusions
+
+The last numbered section should briefly summarise what has been done, and
+describe the final conclusions which the authors draw from their work.
 
 
 
