@@ -1,0 +1,185 @@
+---
+title: Using Machine Learning to Predict the Correlation of Spectra Using SDSS Colour Magnitudes as an Improvement to the Locus Algorithm
+author:
+  - name: Tom O'Flynn
+    email: tom.oflynn@tudublin.ie
+    affiliation: Technological University Dublin
+  - name: Eugene Hickey
+    email: eugene.hickey@tudublin.ie
+    affiliation: Technological University Dublin
+    footnote: 1
+  - name: Kevin Nolan
+    email: kevin.nolan@tudublin.ie
+    affiliation: Technological University Dublin
+    footnote: 2
+  - name: Oisin Creaner
+    email: creanero@cp.dias.ie
+    affiliation: Dublin Institute of Advanced Studies
+    footnote: 2
+address:
+  - code: Technological University Dublin
+    address: Department of Applied Science, Dublin D24FKT9
+  - code: Dublin Institute of Advanced Studies
+    address: 10 Burlington Rd, Dublin, D04 C932, Ireland
+footnote:
+  - code: 1
+    text: "Corresponding Author"
+  - code: 2
+    text: "Equal contribution"
+abstract: |
+    The Locus Algorithm is a new technique to improve the quality of differential photometry by optimising the choices of reference stars. At the heart of this algorithm is a routine to assess how good each potential reference star is by comparing its sdss magnitude values to those of the target star. In this way, the difference in wavelength-dependent effects of the Earth's atmospheric scattering between target and reference can be minimised. This paper sets out a new way to calculate the quality of each reference star using machine learning. A random subset of stars from sdss with spectra was chosen. For each one, a suitable reference star, also with a spectrum, was chosen. The correlation between the two spectra was taken to be the gold-standard measure of how well they match up for differential photometry. The five sdss magnitude values for each of these stars were used as predictors. A number of supervised machine learning models were constructed on a training set of the stars and were each evaluated on a testing set. The model using Support Vector Regression had the best performance of these models. It was then tested of a final, hold-out, validation set of stars to get an unbiased measure of its performance. The dataset used, the model constructions, and performance evaluation are presented here.
+journal: "Astronomy and Computing"
+date: "`r Sys.Date()`"
+# bibliography:  [SDSS.bib, references.bib, mybibfile.bib]
+#linenumbers: true
+#numbersections: true
+classoption: preprint, 3p, authoryear
+bibliography: SDSS.bib
+linenumbers: false
+numbersections: true
+# Use a CSL with `citation_package = "default"`
+# csl: https://www.zotero.org/styles/elsevier-harvard
+csl: astronomy-and-computing.csl
+output: 
+  rticles::elsevier_article:
+    keep_tex: true
+    citation_package: natbib
+---
+
+# Introduction
+
+A wealth of astrophysics information is available through the study of 
+the brightness of celestial objects as a function of time. For example, exoplanet detection by the transit method relies critically on measurements of intrinsic variability where such variability can be a small fraction of the total stellar brightness (@Giltinan2011, @Everett2001). Ground-based observations looking for such variability are complicated by the effects of the Earth’s atmosphere which causes incoherent wavelength-dependent variations in the stellar flux detected. This can mask intrinsic variability and hamper the study of variable astrophysical phenomena (@Smith2008). 
+
+The technique of differential photometry has been developed in an attempt to mitigate the effects of the Earth's atmosphere on studies of stellar variability. Differential photometry uses references stars at small angular separations from the star of interest as comparators. Atmospheric effects should have similar effects on the measured flux from all of these stars causing them to vary in unison (@Burdanov2014). Because scattering in the Earth's atmosphere is wavelength dependent, the technique is especially successful if the target star and reference stars are spectrally similar (@Milone2011a, @Sterken2011).  
+
+The Locus Algorithm (@creaner2022) has been used to create catalogues of pointings suitable for differential photometry on astromonical targets based on a novel technique of choosing appropriate reference stars (@creaner2020 and Creaner EXO's). The algorithm no longer places the target in the centre of the field of view but, in general, repositions it so as to include the best set of reference stars. Assessment of each reference star is performed by referring to the sdss catalogue and the colour band magnitudes therein. These magnitudes can be used to infer the overall shape of the star's spectrum. Stars that have similar spectra will be effected by scattering from the Earth's atmosphere to a more comparable degree that stars with dissimilar spectra. The original Locus Algorithm used a rational, but ad-hoc, method to estimate the correlation of stellar spectra based on differences between their g, r, and i sdss colour magnitudes (@Creaner2017). This was necessary for computational efficiency. The work presented here presents a more rigorous technique to estimate the correlation of stellar spectra based on machine learning. The subset of stars in sdss that have their spectra measured are used. These stars are paired off such that each pair has similar colour magnitude differences and are thus potentially a good match for differential photometry. This corresponds to the pre-filtering step employed by @Creaner2017. The correlation between each pair's spectra is calculated. This forms the basis of a goodness-of-fit between the two spectra. The sdss magnitudes (u, g, r, i, and z for both stars in the pair) are then used to train machine learning algorithms to predict this goodness-of-fit. The models produced are then applied to other pairs of stars, the test set, to evaluate their performance. The results show a significant improvement over the original ad-hoc Locus Algorithm routine, this model will be incorporated to future generations of the Locus Algorithm.
+
+# Data
+
+This work uses 3556 stellar spectra from the SDSS SEGUE and BOSS observations and their physical parameters from the $13^{th}$ SDSS data release (@Aguado2018). The spectra are clipped to just the wavelengths contained in the sdss r band (between 550nm and 700nm). Stars are paired off based on their sdss colour magnitudes so that both stars in a pair are of similar colour. Specifically, both $(g_1-r_1)-(g_2-r_2)$ and $(r_1-i_1)-(r_2-i_2)$ will be between 0 and 0.3. This ensures that these stars would be realistic matches for differential photometry. In addition, stars were chosen that had r colour magnitude values between 15 and 20. The SQL queries used to download physical parameters and the spectra are given in the supplementary materials for this paper.
+Correlations between spectra are calculated using the usual Pearson Correlation formula, equation (\ref{eq:correlation}).  
+
+
+\begin{equation}
+  \displaystyle r_{xy}={\frac {n\sum x_{i}y_{i}-\sum x_{i}\sum y_{i}}{{\sqrt {n\sum x_{i}^{2}-\left(\sum x_{i}\right)^{2}}}~{\sqrt {n\sum y_{i}^{2}-\left(\sum y_{i}\right)^{2}}}}}.
+  \label{eq:correlation}
+\end{equation}
+
+
+where $x_i$ refer to the flux from the first star at a given wavelength, $i$, in units of $erg/cm^2/s Å$, $y_i$ refer to the flux from the second star at the same wavelength. Figure \ref{fig:spectra} shows some pairs of stars along with their correlations. The first pair, A and B, are representative of the sample. The second pair, C and D, were chosen to have an unusually low correlation for this sample set.
+
+\begin{figure}
+  \includegraphics[width=\columnwidth, height = 8cm]{figures/spectra1}
+  \includegraphics[width=\columnwidth, height = 8cm]{figures/spectra2}
+    \caption{Two pairs of spectra downloaded from SDSS. The ugriz colour magnitudes for each star is given below its spectrum. The darkened area of the spectral line corresponds to the r-band wavelengths. The correlation between spectra A and C is 0.96. That between spectra B and D is 0.75.}
+    \label{fig:spectra}
+\end{figure}
+
+Correlation is usually bounded by -1 and 1. And because these are spectra from stars and they have similar colour magnitudes, the correlations tend to be clustered near this higher end, see the histogram in figure \ref{fig:histograms}A below. Machine learning algorithms work better with normally distributed values (need reference) and this is especially true when it comes to analysing model performance (another reference), so the correlation values were transformed. First of all by a logit transformation (\ref{eq:logit}):
+
+
+\begin{equation}
+  \displaystyle \operatorname {logit} (x)=\ln \left({\frac {1+x}{1-x}}\right)
+  \label{eq:logit}
+\end{equation}
+
+
+And then by scaling and normalising the values to have a mean of 0 and a standard deviation of 1. The resulting transformed values are shown in figure \ref{fig:histograms}B.  
+
+\begin{figure}
+  \includegraphics[width=\columnwidth, height = 5cm]{figures/histograms}
+    \caption{(A) Histogram of Pearson correlation values between r-band spectra between pairs of matched stars. (B) Values in (A) transformed by a logit function.}
+    \label{fig:histograms}
+\end{figure}
+
+The data is split into test and training sets, with 70% of the data (2668 samples) in the training set and the remainder (888 samples) in the test set. Each set has a representative sample of correlation values, to do this the original sample of 3556 pairs is split into five groups based on percentiles of the correlation and both testing and training sets get a commensurate proportion of each group. A additional, completely independent set of 526 pairs of stars are used for final validation of the chosen model.
+
+
+# Models
+
+Four types of machine learning algorithms were used: support vector regression (SVR), random forrest (RF), extreme gradient boosting (XGB), and a linear model (LM). In each of the four cases, a model was built on the training set, using 10 predictors, namely the ugriz values for both stars in each pair. The target value was the logit(correlation) value. Cross validation, 20-fold repeated 10 times, was used to minimise model bias. Hyperparameters for each model were tuned. The results for RMSE, MAE, and $R^2$ for all models are given in \ref{tab:models}.The details are given below:
+
+- *Support Vector Regression* This used a radial basis kernal function (Karatzoglou2004). A grid search on the hyperparameters Cost (C) and sigma ($\sigma$) was undertaken for values 8 < C < 25 and 0.08 < $\sigma$ < 0.20. The model was optimised based on the RMSE of the training set. The best tune was obtained for C = 20 and $\sigma$ = 0.12. 
+
+
+- *Stochastic Gradient Boosting* This used  Friedman’s gradient boosting algorithm (@Boehmke2019). A grid search on the hyperparameters Number of Boosting Iterations (n.trees), Maximum Tree Depth (interaction.depth), Shrinkage (shrinkage), and Minimum Terminal Node Size (n.minobsinnode) was undertaken. The model was optimised based on the RMSE of the training set. The best tune was obtained for n.trees = 100, interaction.depth = 10, shrinkage = 0.1 and n.minobsinnode = 10. 
+
+
+- *Random Forrest* This used the _ranger_ fast implementation of random forrests (@Wright2017). The Minimum Node Size was set to be 5, the splitting rule was chosen to be _variance_. The number of variables to possibly split at each node (mtry) was tuned to be 6.
+
+- *Linear Model* The final model was a linear model from the MASS R package (@Venables2002). There were no tunable parameters.
+
+
+A regression model was built on the training set. An eXtreme Gradient Boosting model (@Friedman2000, @Chen2021) was used. This was chosen because of its performance and reliability (@Bentejac2020). Cross validation was performed using a bootstrap method (@Efron1983). The model was fit with the maximum number of boosting iterations set to 150, the learning rate set to 0.3, the maximum tree depth set to 3. It was set to minimise the RMSE on the training set. The final model fit was produced after 106 iterations.
+
+<!-- # Model Evaluation -->
+
+<!-- The table below gives the values for RMSE, MAE, and $R^2$ for each of the four values as they applied to the test set. -->
+
+<!-- \begin{center} -->
+<!--   \begin{table} -->
+<!--     \centering -->
+<!--     \includegraphics[width=5cm, height = 4cm]{figures/model-values-test} -->
+<!--       \caption{Results of applying the best tuned models on the test set} -->
+<!--       \label{tab:models} -->
+<!--   \end{figure} -->
+<!-- \end{center} -->
+
+<!-- The model was then used to predict the logit correlation values from the 1676 star pairs from the test set. Figure \ref{fig:obs-pred} shows the resulting values of observed logit correlation values against predicted logit correlation values. Figure \ref{fig:residuals-pred} shows the resulting values of the residuals, the observations minus the predicted values, against predicted logit correlation values. Figure \ref{fig:residuals-hist} shows a histogram of the residual values, figure \ref{fig:residuals-qq} shows a quantile-quantile (QQ) plot of the residuals. The shape of this last plot shows the residuals to be somewhat platykurtic which is acceptable for a machine learning fit (ref???). -->
+
+<!-- The $R^2$ value of predicted logit correlation on the test set was found to be 71%. The RMSE on the test set was found to be 0.55. The performance of the original function used in @creaner2022 was worse, with an $R^2$ of 13%. -->
+
+<!-- \begin{figure} -->
+<!--   \includegraphics[width=\columnwidth, height = 6.5cm]{figures/observed-predicted} -->
+<!--     \caption{Observed versus predicted logit correlation values} -->
+<!--     \label{fig:obs-pred} -->
+<!-- \end{figure} -->
+
+<!-- \begin{figure} -->
+<!--   \includegraphics[width=\columnwidth, height = 6.5cm]{figures/residuals-predicted} -->
+<!--     \caption{Residuals versus predicted logit correlation values} -->
+<!--     \label{fig:residuals-pred} -->
+<!-- \end{figure} -->
+
+<!-- \begin{figure} -->
+<!--   \includegraphics[width=\columnwidth, height = 6.5cm]{figures/residuals-hist} -->
+<!--     \caption{Observed versus predicted logit correlation values} -->
+<!--     \label{fig:residuals-hist} -->
+<!-- \end{figure} -->
+
+<!-- \begin{figure} -->
+<!--   \includegraphics[width=\columnwidth, height = 6.5cm]{figures/residuals-qq} -->
+<!--     \caption{Observed versus predicted logit correlation values} -->
+<!--     \label{fig:residuals-qq} -->
+<!-- \end{figure} -->
+
+
+
+
+<!-- <!-- \begin{table} --> -->
+<!-- <!--   \centering --> -->
+<!-- <!--   \caption{This is an example table. Captions appear above each table. --> -->
+<!-- <!--   Remember to define the quantities, symbols and units used.} --> -->
+<!-- <!--   \label{tab:example_table} --> -->
+<!-- <!--   \begin{tabular}{lccr} % four columns, alignment for each --> -->
+<!-- <!--     \hline --> -->
+<!-- <!--     A & B & C & D\\ --> -->
+<!-- <!--     \hline --> -->
+<!-- <!--     1 & 2 & 3 & 4\\ --> -->
+<!-- <!--     2 & 4 & 6 & 8\\ --> -->
+<!-- <!--     3 & 5 & 7 & 9\\ --> -->
+<!-- <!--     \hline --> -->
+<!-- <!--   \end{tabular} --> -->
+<!-- <!-- \end{table} --> -->
+
+<!-- # Conclusions -->
+
+<!-- The last numbered section should briefly summarise what has been done, and -->
+<!-- describe the final conclusions which the authors draw from their work. -->
+
+
+
+
+# References {-}
+

@@ -44,9 +44,9 @@ z1_extra <- readRDS("data/z_4500_clean_extra_extra_unnormalised") %>%
            scale())
 names(z1_extra) <- names(z1)
 
-# tr <- trainControl(method = "repeatedcv",
-#                    number = 20,
-#                    repeats = 10)
+tr <- trainControl(method = "repeatedcv",
+                   number = 20,
+                   repeats = 10)
 # tr1 <- trainControl(method = "boot632",number =1000)
 
 # set.seed(998)
@@ -63,8 +63,8 @@ y = training$cor_logit
 
 # Wed Mar  2 11:32:44 2022 ------------------------------
 
-# lm1 <- train(cor_logit~., data=training, 
-#              method = "lmStepAIC",trControl=tr)
+lm1 <- train(cor_logit~., data=training,
+             method = "lmStepAIC",trControl=tr)
 lm1 <- readRDS("models/devgenius/lm1")
 summary(lm1)
 fitted <- predict(lm1)
@@ -86,8 +86,9 @@ ggplot(lm1values, aes(obs,pred, colour=res)) +
 ### Next up is the random forest model. I am just using standard grid searches to get the model going.
 
 # tg <- data.frame(mtry = seq(2, 10, by =2))
-# rf1 <- train(cor_logit~., data = training, 
-#              method = "rf",trControl=tr, tuneGrid = tg) 
+tg <- data.frame(mtry = 6)
+rf1 <- train(cor_logit~., data = training,
+             method = "rf",trControl=tr, tuneGrid = tg)
 rf1 <- readRDS("models/devgenius/rf1")
 rf1$results
 class(rf1)
@@ -186,12 +187,16 @@ set.seed(42)
 #   C = c(0.25, .5, 1),
 #   sigma = 0.1
 # )
-# svm1 <- train(cor_logit~., data = training,
-#               preProcess = c("center", "scale"),
-#               method = "svmRadial",
-#               tuneLength=14,
-#               trControl=tr,
-#               tuneGrid = tuneGrid)
+tuneGrid <- expand.grid(
+  C = 20,
+  sigma = 0.1
+)
+svm1 <- train(cor_logit~., data = training,
+              preProcess = c("center", "scale"),
+              method = "svmRadial",
+              tuneLength=14,
+              trControl=tr,
+              tuneGrid = tuneGrid)
 svm1 <- readRDS("models/devgenius/svm1")
 svm1
 plot(svm1)
@@ -222,12 +227,16 @@ qqplot(svm1values$pred, svm1values$obs)
 
 ##  Gradient Boosting
 
+tg <- expand.grid(shrinkage = 0.1,
+                  interaction.depth = 10,
+                  n.minobsinnode = 10,
+                  n.trees = 100)
 # tg <- expand.grid(shrinkage = seq(0.1, 1, by = 0.2), 
 #                   interaction.depth = c(1, 3, 7, 10),
 #                   n.minobsinnode = c(2, 5, 10),
 #                   n.trees = c(100, 300, 500, 1000))
-# gbm1<- train(cor_logit~., data = training, 
-#              method = "gbm", trControl = tr, tuneGrid =tg, verbose = FALSE)
+gbm1<- train(cor_logit~., data = training,
+             method = "gbm", trControl = tr, tuneGrid =tg, verbose = T)
 gbm1 <- readRDS("models/devgenius/gbm1")
 plot(gbm1)
 gbm1pred<-predict(gbm1, testing)
