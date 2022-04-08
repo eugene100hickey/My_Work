@@ -18,9 +18,9 @@ author:
     footnote: 2
 address:
   - code: Technological University Dublin
-    address: Department of Applied Science, Dublin D24FKT9
+    address: Department of Applied Science, Technological University Dublin D24FKT9, Ireland.
   - code: Dublin Institute of Advanced Studies
-    address: 10 Burlington Rd, Dublin, D04 C932, Ireland
+    address: Dublin Institute of Advanced Studies, 10 Burlington Rd, Dublin, D04 C932, Ireland
 footnote:
   - code: 1
     text: "Corresponding Author"
@@ -93,12 +93,12 @@ And then by scaling and normalising the values to have a mean of 0 and a standar
     \label{fig:histograms}
 \end{figure}
 
-The data is split into test and training sets, with 70% of the data (2668 samples) in the training set and the remainder (888 samples) in the test set. Each set has a representative sample of correlation values, to do this the original sample of 3556 pairs is split into five groups based on percentiles of the correlation and both testing and training sets get a commensurate proportion of each group. A additional, completely independent set of 526 pairs of stars are used for final validation of the chosen model.
+The data is split into test and training sets, with 70% of the data (2668 samples) in the training set and the remainder (888 samples) in the test set. Each set has a representative sample of correlation values, to do this the original sample of 3556 pairs is split into five groups based on percentiles of the correlation and both testing and training sets get a commensurate proportion of each group. In additional, completely independent set of 526 pairs of stars are used for final validation of the chosen model.
 
 
 # Models
 
-Four types of machine learning algorithms were used: support vector regression (SVR), random forrest (RF), extreme gradient boosting (XGB), and a linear model (LM). In each of the four cases, a model was built on the training set, using 10 predictors, namely the ugriz values for both stars in each pair. The target value was the logit(correlation) value. Cross validation, 20-fold repeated 10 times, was used to minimise model bias. Hyperparameters for each model were tuned. The results for RMSE, MAE, and $R^2$ for all models are given in \ref{tab:models}.The details are given below:
+Four types of machine learning algorithms were used: support vector regression (SVR), random forrest (RF), gradient boosting (GBM), and a linear model (LM). In each of the four cases, a model was built on the training set, using 10 predictors, namely the ugriz values for both stars in each pair. The target value was the logit(correlation) value. Cross validation, 20-fold repeated 10 times, was used to minimise model bias. Hyperparameters for each model were tuned. The results for RMSE, MAE, and $R^2$ for all models are given in table \ref{tbl:models}.The details are given below:
 
 - *Support Vector Regression* This used a radial basis kernal function (Karatzoglou2004). A grid search on the hyperparameters Cost (C) and sigma ($\sigma$) was undertaken for values 8 < C < 25 and 0.08 < $\sigma$ < 0.20. The model was optimised based on the RMSE of the training set. The best tune was obtained for C = 20 and $\sigma$ = 0.12. 
 
@@ -111,105 +111,64 @@ Four types of machine learning algorithms were used: support vector regression (
 - *Linear Model* The final model was a linear model from the MASS R package (@Venables2002). There were no tunable parameters.
 
 
-A regression model was built on the training set. An eXtreme Gradient Boosting model (@Friedman2000, @Chen2021) was used. This was chosen because of its performance and reliability (@Bentejac2020). Cross validation was performed using a bootstrap method (@Efron1983). The model was fit with the maximum number of boosting iterations set to 150, the learning rate set to 0.3, the maximum tree depth set to 3. It was set to minimise the RMSE on the training set. The final model fit was produced after 106 iterations.
 
 # Model Evaluation
 
-The table below gives the values for RMSE, MAE, and $R^2$ for each of the four values as they applied to the test set.
+The table below gives the values for RMSE, MAE, and $R^2$ for each of the four values as they applied to the test set of 888 stellar pairs.
 
 \begin{table}
   \centering
-  \caption{A stunning table}
-  \label{tbl:model-table}
+  \caption{Results of applying the best tuned models on the test set. Root mean squared error (RMSE), R-squared value (R2), and mean average error (MAE) for each of the four model types. The models were built on the training set of 2668 stellar pairs. The values given below were obtained by applying each model to the test set of 888 stellar pairs}
+  \label{tbl:models}
   \includegraphics[width=6cm]{figures/model-values-test}
 \end{table}
 
-```{r echo = F, message = F, warning = F}
-# library(tidyverse)
-# library(gt)
-# 
-# 
-# # SVR, GBM, RF, LM
-# 
-# zq <- tribble(~models, ~RMSE, ~Rsquared, ~MAE,
-#               "SVR", 0.5543971, 0.6929413, 0.3937136, 
-#               "GBM", 0.5840478, 0.6545808, 0.4225466,
-#               "RF", 0.5896328, 0.6480536, 0.4273223,
-#               "LM", 0.6393757, 0.5870244, 0.4804900 
-#               )
-# 
-# 
-# zq |> 
-#   # mutate(RMSE = round(RMSE, 3),
-#   #        Rsquared = round(Rsquared, 3),
-#   #        MAE = round(MAE, 3)) |> 
-#   gt(rowname_col = "models") |> 
-#   fmt_number(
-#     columns = 1:4,
-#     decimals = 3,
-#     suffixing = TRUE
-#   ) |> 
-#   cols_label(RMSE = md("RMSE"),
-#              Rsquared = md("R<sup>2</sup>"),
-#              MAE = md("MAE"))
-```
+As can be seen from table \ref{tbl:models}, the best performing model was that produced by SVR. This is in line with expectations as our data set had few (10) predictors, they were all numeric as opposed to being a mix of numeric and categorical, and there were no missing values. These are all factors that favour SVR models.
 
+Finally, the SVR model was applied to the validation set of 526 stellar pairs. The resulting predicted values has an RMSE of 0.564, an $R^2$ of 0.682, and an MAE of 0.399 when compared to the observed logit correlation values of the spectra. To put these RMSE and MAE values on context, remember that the logit correlation values have been scaled to have a standard deviation of 1.  
 
-<!-- \begin{center} -->
-<!--   \begin{table} -->
-<!--     \centering -->
-<!--     \includegraphics[width=5cm, height = 4cm]{figures/model-values-test} -->
-<!--       \caption{Results of applying the best tuned models on the test set} -->
-<!--       \label{tab:models} -->
-<!--   \end{figure} -->
-<!-- \end{center} -->
-
-The model was then used to predict the logit correlation values from the 1676 star pairs from the test set. Figure \ref{fig:obs-pred} shows the resulting values of observed logit correlation values against predicted logit correlation values. Figure \ref{fig:residuals-pred} shows the resulting values of the residuals, the observations minus the predicted values, against predicted logit correlation values. Figure \ref{fig:residuals-hist} shows a histogram of the residual values, figure \ref{fig:residuals-qq} shows a quantile-quantile (QQ) plot of the residuals. The shape of this last plot shows the residuals to be somewhat platykurtic which is acceptable for a machine learning fit (ref???).
-
-The $R^2$ value of predicted logit correlation on the test set was found to be 71%. The RMSE on the test set was found to be 0.55. The performance of the original function used in @creaner2022 was worse, with an $R^2$ of 13%.
+The histogram of the residuals from this fit is shown in figure \ref{fig:histogram-residuals}. Figure \ref{fig:obs-pred} shows the resulting values of observed logit correlation values against predicted logit correlation values. Figure \ref{fig:residuals-pred} shows the resulting values of the residuals, the observations minus the predicted values, against predicted logit correlation values. Figure \ref{fig:residuals-qq} shows a quantile-quantile (QQ) plot of the residuals. 
 
 \begin{figure}
-  \includegraphics[width=\columnwidth, height = 6.5cm]{figures/observed-predicted}
+  \centering
+  \includegraphics[width=\columnwidth, height = 5cm, width = 10cm]{figures/histogram}
+    \caption{Residuals from the fit of the best performing SVR model on the validation dataset. Note one of the outlying values circled in red}
+    \label{fig:histogram-residuals}
+\end{figure}
+
+All of these plots point to the presence of outliers in the residuals. These were investigated. Looking at the histogram in figure \ref{fig:histogram-residuals}, there is a notable residual at 2.3, highlighted in red in the figure. The spectra of the pair of stars involved in this outlier were investigated and are shown in figure \ref{fig:outlier-spectra}. Note that the top spectrum, from a star of spectral subclass CV located at $RA = 140.04^{\circ}$ and $Dec = 0.7125^{\circ}$, has emission lines rather than absorption lines more reminiscent of a galaxy rather than a star. This behaviour was noted for some, but not all, of the stellar pairs with high residuals. In all cases it involved a star with subclass CV.  
+
+
+
+
+\begin{figure}
+\centering
+  \includegraphics[width=\columnwidth, height = 6.5cm, width = 10cm]{figures/observed-predicted}
     \caption{Observed versus predicted logit correlation values}
     \label{fig:obs-pred}
 \end{figure}
 
 \begin{figure}
-  \includegraphics[width=\columnwidth, height = 6.5cm]{figures/residuals-predicted}
+\centering
+  \includegraphics[width=\columnwidth, height = 6.5cm, width = 10cm]{figures/residuals-predicted}
     \caption{Residuals versus predicted logit correlation values}
     \label{fig:residuals-pred}
 \end{figure}
 
-\begin{figure}
-  \includegraphics[width=\columnwidth, height = 6.5cm]{figures/residuals-hist}
-    \caption{Observed versus predicted logit correlation values}
-    \label{fig:residuals-hist}
-\end{figure}
 
 \begin{figure}
-  \includegraphics[width=\columnwidth, height = 6.5cm]{figures/residuals-qq}
-    \caption{Observed versus predicted logit correlation values}
+\centering
+  \includegraphics[width=\columnwidth, height = 6.5cm, width = 10cm]{figures/residuals-qq}
+    \caption{QQ Plot of the Residuals from the Fit of the SVR Model on the Validation Dataset}
     \label{fig:residuals-qq}
 \end{figure}
 
-
-
-
-\begin{table}
+\begin{figure}
   \centering
-  \caption{This is an example table. Captions appear above each table.
-  Remember to define the quantities, symbols and units used.}
-  \label{tab:example_table}
-  \begin{tabular}{lccr} % four columns, alignment for each
-    \hline
-    A & B & C & D\\
-    \hline
-    1 & 2 & 3 & 4\\
-    2 & 4 & 6 & 8\\
-    3 & 5 & 7 & 9\\
-    \hline
-  \end{tabular}
-\end{table}
+  \includegraphics[width=\columnwidth, height = 10cm, width = 10cm]{figures/outlier-spectra}
+    \caption{Spectra of the two stars involved in the outlier of the residuals histogram}
+    \label{fig:outlier-spectra}
+\end{figure}
 
 # Conclusions
 

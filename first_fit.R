@@ -168,13 +168,14 @@ model_xgb <- train(x = train_x,
 #   trControl = trainCtrl,
 #   tuneGrid = rf_grid
 # )
-
+model_xgb <- readRDS("Locus-elsevier1/models/svm-sigma008-010C18-20")
 model_xgb$results %>% 
   ggplot(aes(RMSE, Rsquared)) + 
   geom_point() +
   theme_clean()
+test <- z1x
 
-y_hat <- predict(model_xgb$finalModel, test %>% 
+y_hat <- predict(model_xgb, test %>% 
                    select(u:z, u1:z1) %>% 
                    as.matrix())
 

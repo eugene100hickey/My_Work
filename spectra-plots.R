@@ -77,8 +77,8 @@ match_SqlQuery <- glue("SELECT top 4 p.ra, p.dec, ",
                        "s.plate, s.mjd, s.fiberid ", 
                        "FROM photoObj AS p ", 
                        "JOIN SpecObj AS s ON s.bestobjid = p.objid ",
-                       "WHERE s.specobjid = 314131604853254144",
-                       "OR s.specobjid = 3586003928694759424")
+                       "WHERE s.specobjid = {specobj}",
+                       "OR s.specobjid = {specobj1}")
 match_SqlQuery <- str_squish(match_SqlQuery)
 X <- getForm(urlBase, cmd = match_SqlQuery, format = "csv")
 match1 <- read.table(text = X, header = TRUE, sep = ",", dec = ".", comment.char = "#")
@@ -138,5 +138,59 @@ plot4 <- spectrum_plot(spect4, match[4,])
                   tag_suffix = ")")
 (plot3 / plot4)  + 
   plot_annotation(tag_levels = list(c('C', 'D')),
+                  tag_prefix = "(",
+                  tag_suffix = ")")
+
+
+#plot from z1_extra data
+
+my_index <- 159
+first_star <- z1_extra[my_index, 1:15]
+second_star <- z1_extra[my_index, 16:30]
+names(second_star) <- names(first_star)
+
+spectrum_plot <- function(spectrum, object) {
+  spectrum %>% 
+    ggplot(aes(Wavelength/10, BestFit)) +
+    geom_line(colour = "gray70") +
+    geom_line(data = spectrum %>% filter(between(Wavelength, 5500, 7000)),
+              aes(Wavelength/10, BestFit),
+              colour = "black",
+              size = 1.5) +
+    scale_x_continuous(breaks = seq(400, 1000, by = 100)) +
+    labs(x = "Wavelength (nm)",
+         y = "Flux (erg/cm²/s Å)") +
+    annotate("text", 
+             x = 800,
+             y = max(spectrum$BestFit) * 0.85,
+             family = "Fuzzy Bubbles",
+             size = 8,
+             label = glue("specobjid\n{as.character(object$specobjid)}")) +
+    annotate("text", 
+             x = 550,
+             y = max(spectrum$BestFit) * 0.85,
+             family = "Fuzzy Bubbles",
+             size = 8,
+             label = glue("subclass\n{as.character(object$subclass)}")) +
+    annotate("text", 
+             x = 620,
+             y = min(spectrum$BestFit) * 0.9 + max(spectrum$BestFit) * 0.1,
+             family = "Fuzzy Bubbles",
+             size = 10,
+             label = glue("u = {round(object$u, 2)}, g = {round(object$g, 2)}, r = {round(object$r, 2)}, i = {round(object$i, 2)}, z = {round(object$z, 2)}")) +
+    theme_clean() +
+    theme(axis.title.y = element_text(size = 20))
+}
+
+
+
+spect1 <- get_spectrum(first_star)
+spect2 <- get_spectrum(second_star)
+plot1 <- spectrum_plot(spect1, first_star) + 
+  theme(axis.title.x = element_blank(),
+        axis.text.x = element_blank())
+plot2 <- spectrum_plot(spect2, second_star)
+(plot1 / plot2)  + 
+  plot_annotation(tag_levels = 'A',
                   tag_prefix = "(",
                   tag_suffix = ")")
