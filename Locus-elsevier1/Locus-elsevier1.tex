@@ -184,7 +184,8 @@ stars in a pair are of similar colour. Specifically, both
 \((g_1-r_1)-(g_2-r_2)\) and \((r_1-i_1)-(r_2-i_2)\) will be between 0
 and 0.3. This ensures that these stars would be realistic matches for
 differential photometry. In addition, stars were chosen that had r
-colour magnitude values between 15 and 20. The SQL queries used to
+colour magnitude values between 15 and 20. Care is taken to ensure that
+all 7112 stars in the 3556 pairs are unique. The SQL queries used to
 download physical parameters and the spectra are given in the
 supplementary materials for this paper. Correlations between spectra are
 calculated using the usual Pearson Correlation formula, equation
@@ -287,8 +288,11 @@ details are given below:
 \hypertarget{model-evaluation}{%
 \section{Model Evaluation}\label{model-evaluation}}
 
-The table below gives the values for RMSE, MAE, and \(R^2\) for each of
-the four values as they applied to the test set of 888 stellar pairs.
+Table \ref{tbl:models} gives the values for RMSE, MAE, and \(R^2\) for
+each of the four values as they applied to the test set of 888 stellar
+pairs. To put these RMSE and MAE values in context, remember that the
+logit correlation values have been scaled to have a standard deviation
+of 1.
 
 \begin{table}
   \centering
@@ -306,16 +310,14 @@ are all factors that favour SVR models.
 Finally, the SVR model was applied to the validation set of 526 stellar
 pairs. The resulting predicted values has an RMSE of 0.564, an \(R^2\)
 of 0.682, and an MAE of 0.399 when compared to the observed logit
-correlation values of the spectra. To put these RMSE and MAE values on
-context, remember that the logit correlation values have been scaled to
-have a standard deviation of 1.
+correlation values of the spectra.
 
-The histogram of the residuals from this fit is shown in figure
-\ref{fig:histogram-residuals}. Figure \ref{fig:obs-pred} shows the
-resulting values of observed logit correlation values against predicted
-logit correlation values. Figure \ref{fig:residuals-pred} shows the
-resulting values of the residuals, the observations minus the predicted
-values, against predicted logit correlation values. Figure
+The histogram of the residuals from this fit on the validation data is
+shown in figure \ref{fig:histogram-residuals}. Figure \ref{fig:obs-pred}
+shows the resulting values of observed logit correlation values against
+predicted logit correlation values. Figure \ref{fig:residuals-pred}
+shows the resulting values of the residuals, the observations minus the
+predicted values, against predicted logit correlation values. Figure
 \ref{fig:residuals-qq} shows a quantile-quantile (QQ) plot of the
 residuals.
 
