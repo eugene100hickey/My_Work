@@ -88,7 +88,7 @@ svm1values |>
   theme_clean() +
   theme(axis.title.y = element_blank(),
         axis.text.y = element_blank())
-ggsave(filename = "Locus-elsevier1/figures/histogram.png", width = 515, height = 355, units = "px")
+# ggsave(filename = "Locus-elsevier1/figures/histogram.png", width = 515, height = 355, units = "px")
 
 qqplot(svm1values$pred, 
        svm1values$obs,
