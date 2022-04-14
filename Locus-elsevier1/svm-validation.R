@@ -63,7 +63,7 @@ ggplot(svm1values, aes(y=obs,
   theme(axis.title = element_text(size = 12),
         axis.text = element_text(size = 12))
 
-ggplot(svm1values, aes(y = res,
+ggplot(svm1values, aes(y = res, 
                        x = pred)) +
   geom_point(alpha=0.9, show.legend = F, col = "darkblue") + 
 #  geom_smooth(se=FALSE,colour="red", linetype="dashed", size=0.5)+ 
