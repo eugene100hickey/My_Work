@@ -37,6 +37,11 @@ z1_extra <- z1_extra |>
          objid1 = as.character(objid1),
          specobjid = as.character(specobjid),
          specobjid1 = as.character(specobjid1))
+z1 <- z1 |> 
+  mutate(objid = as.character(objid),
+         objid1 = as.character(objid1),
+         specobjid = as.character(specobjid),
+         specobjid1 = as.character(specobjid1))
 
 validation <- z1_extra #|> 
  # filter(subclass != "CV", subclass1 != "CV")
@@ -53,10 +58,11 @@ defaultSummary(svm1values)
 
 ggplot(svm1values, aes(y=obs,
                        x=pred, 
-                       colour=res)) +
+                       colour=abs(res))) +
   geom_point(alpha=0.9, show.legend = F) + 
 #  geom_smooth(se=FALSE,colour="red", linetype="dashed", size=0.5)+ 
   geom_abline(slope=1, linetype="dashed") +
+  scale_color_gradient(low = "#7BA0B4", high = "#0A2D46") + 
   labs(y = "Observered Logit Correlation Value",
        x = "Predicted Logit Correlation Value") +
   theme_clean() +
@@ -65,7 +71,7 @@ ggplot(svm1values, aes(y=obs,
 
 ggplot(svm1values, aes(y = res,
                        x = pred)) +
-  geom_point(alpha=0.9, show.legend = F, col = "darkblue") + 
+  geom_point(alpha=0.9, show.legend = F, col = "#44728C") + 
 #  geom_smooth(se=FALSE,colour="red", linetype="dashed", size=0.5)+ 
 #  geom_abline(slope=1, linetype="dashed") +
   labs(y = "Residuals",
@@ -104,3 +110,14 @@ svm1values %>%
   scale_color_viridis_d() +
   theme_clean()
 
+M <- 0.3
+rating <- function(gr, rr, ir, gt, rt, it) {
+  delta.CS <- (gt - rt) - (gr - rr)
+  delta.CL <- (rt - it) - (rr - ir)
+  RS <- 1 - abs(delta.CS / M)
+  RL <- 1 - abs(delta.CL / M)
+  RS * RL
+}
+z1 <- z1 %>% 
+  mutate(oisin = rating(g, r, i, g1, r1, i1))
+cor(z1$oisin, z1$cor_logit)
