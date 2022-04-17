@@ -60,7 +60,7 @@ The Locus Algorithm (@creaner2022) has been used to create catalogues of pointin
 
 # Data
 
-This work uses 3556 stellar spectra from the SDSS SEGUE and BOSS observations and their physical parameters from the $13^{th}$ SDSS data release (@Aguado2018). The spectra are clipped to just the wavelengths contained in the sdss r band (between 550nm and 700nm). Stars are paired off based on their sdss colour magnitudes so that both stars in a pair are of similar colour. Specifically, both $(g_1-r_1)-(g_2-r_2)$ and $(r_1-i_1)-(r_2-i_2)$ will be between 0 and 0.3. 0.3 is thus called the _Colour Match Limit_. This ensures that these stars would be realistic matches for differential photometry. In addition, stars were chosen that had r colour magnitude values between 15 and 20. Care is taken to ensure that all 7112 stars in the 3556 pairs are unique. The SQL queries used to download physical parameters and the spectra are given in the supplementary materials for this paper.
+This work uses 3556 stellar spectra from the SDSS SEGUE and BOSS observations and their physical parameters from the $13^{th}$ SDSS data release (@Aguado2018). The spectra are clipped to just the wavelengths contained in the sdss r band (between 550nm and 700nm). Stars are paired off based on their sdss colour magnitudes so that both stars in a pair are of similar colour. Specifically, both $(g_1-r_1)-(g_2-r_2)$ and $(r_1-i_1)-(r_2-i_2)$ will be between -0.3 and 0.3. 0.3 is thus called the _Colour Match Limit_. This ensures that these stars would be realistic matches for differential photometry. In addition, stars were chosen that had r colour magnitude values between 15 and 20. Care is taken to ensure that all 7112 stars in the 3556 pairs are unique. The SQL queries used to download physical parameters and the spectra are given in the supplementary materials for this paper.
 Correlations between spectra are calculated using the usual Pearson Correlation formula, equation (\ref{eq:correlation}).  
 
 
@@ -153,8 +153,8 @@ All of these plots point to the presence of outliers in the residuals. These wer
 \begin{figure}
 \centering
   \includegraphics[width=\columnwidth, height = 6.5cm, width = 10cm]{figures/residuals}
-    \caption{Observed versus predicted logit correlation values}
-    \label{fig:obs-pred}
+    \caption{(A) Observed versus predicted logit correlation values, (B) Residuals versus predicted logit correlation values, and (C) QQ plot of the residuals. All of these are from the fit of the SVR model on the validation dataset. They all point to a normal distribution of the residuals accompanied by outliers.}
+    \label{fig:resids}
 \end{figure}
 
 <!-- \begin{figure} -->
