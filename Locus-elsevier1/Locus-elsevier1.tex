@@ -388,9 +388,9 @@ rating =(1- \abs{\frac{\delta g - \delta r}{M}}) \times (1-\abs{\frac{\delta r -
   \label{eq:witchs-hat}
 \end{equation}
 
-Where \(\delta r\) stand for the difference between the r-band
-magnitudes for the two stars in each pair, and M is the \emph{Colour
-Match Limit} of 0.3. Similarly for \(\delta g\) and \(\delta i\).
+Where M is the \emph{Colour Match Limit} of 0.3 and \(\delta r\) stand
+for the difference between the r-band magnitudes for the two stars in
+each pair. Similarly for \(\delta g\) and \(\delta i\).
 
 When the ratings thus derived were compared with the logit correlation
 values derived from the spectra, an \(R^2\) of 0.345 was obtained. This
@@ -401,9 +401,43 @@ Locus Algorithm.
 \hypertarget{conclusions}{%
 \section{Conclusions}\label{conclusions}}
 
-The last numbered section should briefly summarise what has been done,
-and describe the final conclusions which the authors draw from their
-work.
+The Locus Algorithm is a technique to refine differential photometry
+based on the wavelength-dependent nature of atmospheric effects. It
+relies on using reference stars with a good spectral match to the target
+star. The original Locus Algorithm used the linear difference between
+magnitudes from the SDSS astrophysics catalogue between pairs of stars
+to estimate their spectral match.
+
+The work presented here examined machine learning techniques to estimate
+this spectral match. Stars were chosen from the SDSS catalogue where
+full spectra as well as photometric magnitudes were available. These
+stars were paired off with a colour-matched star from SDSS with also had
+a spectrum. The Pearson correlation between each pair of spectra was
+calculated. A dataset was produced which included this correlation along
+with the five SDSS magnitude values for each star. The correlations were
+then transformed by a logit transformation and scaled to have a standard
+mean and standard deviation. These pairs of stars were split into a
+training set, a testing set, and a validation set. The training set was
+used to produce a range of models using cross validation. Each model
+used ten predictors (the five SDSS magnitudes for both stars in the
+pair) to predict the spectral correlation values. The testing set was
+used to produce an unbiased estimate of model performance. And the
+validation set was used just once to get a final performance estimate
+for the best performing model.
+
+The best performing machine learning model was based on Support Vector
+Regression using a radial kernel. The hyperparameters of this model were
+refined. The best performing configuration had an \(R^2\) coefficient of
+0.682 when applied to a validation set of 526 stars. This compares with
+the \(R^2\) value of 0.345 from the original technique. This improvement
+is expected to lead to further improvements in the performance of the
+Locus Algorithm.
+
+The machine learning model performed poorly on a subset of stellar
+pairs. In many cases, it was observed that one member of each pair had
+an unusual stellar spectrum with strong emission lines more typical of a
+galaxy rather than a star. These stars were invariably classified as CV
+type stars by SDSS.
 
 \renewcommand\refname{References}
 \bibliography{SDSS.bib}
