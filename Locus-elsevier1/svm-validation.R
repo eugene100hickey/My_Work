@@ -56,10 +56,10 @@ svm1values<-data.frame(obs=validation$cor_logit,
 yardstick::metrics(data = svm1values, truth = obs, estimate = pred)
 defaultSummary(svm1values)
 
-ggplot(svm1values, aes(y=obs,
+plot1 <- ggplot(svm1values, aes(y=obs,
                        x=pred, 
                        colour=abs(res))) +
-  geom_point(alpha=0.9, show.legend = F) + 
+  geom_point(alpha=0.9, show.legend = F, size = 0.3) + 
 #  geom_smooth(se=FALSE,colour="red", linetype="dashed", size=0.5)+ 
   geom_abline(slope=1, linetype="dashed") +
   scale_color_gradient(low = "#7BA0B4", high = "#0A2D46") + 
@@ -69,9 +69,9 @@ ggplot(svm1values, aes(y=obs,
   theme(axis.title = element_text(size = 12),
         axis.text = element_text(size = 12))
 
-ggplot(svm1values, aes(y = res,
+plot2 <- ggplot(svm1values, aes(y = res,
                        x = pred)) +
-  geom_point(alpha=0.9, show.legend = F, col = "#44728C") + 
+  geom_point(alpha=0.9, show.legend = F, col = "#44728C", size = 0.3) + 
 #  geom_smooth(se=FALSE,colour="red", linetype="dashed", size=0.5)+ 
 #  geom_abline(slope=1, linetype="dashed") +
   labs(y = "Residuals",
@@ -103,9 +103,9 @@ qqplot(svm1values$pred,
        ylab = "Sample Quantiles")
 abline(a = 0, b = 1, col = "darkblue", lwd = 2)
 
-svm1values %>% 
+plot3 <- svm1values %>% 
   ggplot(aes(sample = res)) + 
-  geom_qq() +
+  geom_qq(size = 0.3) +
   geom_abline(slope = 1, intercept = 0) +
   scale_color_viridis_d() +
   theme_clean()
@@ -121,3 +121,11 @@ rating <- function(gr, rr, ir, gt, rt, it) {
 z1 <- z1 %>% 
   mutate(oisin = rating(g, r, i, g1, r1, i1))
 cor(z1$oisin, z1$cor_logit)
+
+layout <- "
+AAAA#CCCC
+BBBB#CCCC
+"
+plot1 + plot2 + plot3 + 
+  plot_layout(design = layout) +
+  plot_annotation(tag_levels = 'A', tag_prefix = "(", tag_suffix = ") ")
