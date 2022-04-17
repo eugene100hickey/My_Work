@@ -147,7 +147,7 @@ quantile-quantile (QQ) plot of the residuals.
     \label{fig:histogram-residuals}
 \end{figure}
 
-All of these plots point to the presence of outliers in the residuals. These were investigated. Looking at the histogram in figure \ref{fig:histogram-residuals}. As stated earlier, there is a notable residual at 3.41, highlighted in red in the figure. The spectra of the pair of stars involved in this outlier were investigated and are shown in figure \ref{fig:outlier-spectra}. Note that the top spectrum, from a star of spectral subclass CV located at $RA = 140.04^{\circ}$ and $Dec = 0.7125^{\circ}$, has emission lines rather than absorption lines more reminiscent of a galaxy rather than a star. This behaviour was noted for some, but not all, of the stellar pairs with high residuals. In all cases it involved a star with subclass CV. 
+All of these plots point to the presence of outliers in the residuals. These were investigated. Looking at the histogram in figure \ref{fig:histogram-residuals}. As stated earlier, there is a notable residual at 3.41, highlighted in red in the figure. The spectra of the pair of stars involved in this outlier were investigated and are shown in figure \ref{fig:outlier-spectra}. Note that the top spectrum, from a star of spectral subclass CV located at $RA = 140.04^{\circ}$ and $Dec = 0.7125^{\circ}$, has emission lines rather than absorption lines which are characteristic of Cataclysmic Variable stars. This behaviour was noted for some, but not all, of the stellar pairs with high residuals. In all cases it involved a star with subclass CV. 
 
 
 \begin{figure}

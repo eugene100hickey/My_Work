@@ -3,11 +3,12 @@
 
 library(tidyverse)
 library(caret)
-library(caretEnsemble)
+library(patchwork)
+# library(caretEnsemble)
 library(showtext)
 library(ggokabeito)
 library(viridis)
-library(xgboost)
+# library(xgboost)
 library(ggforce)
 
 set.seed(42)
@@ -106,7 +107,7 @@ abline(a = 0, b = 1, col = "darkblue", lwd = 2)
 plot3 <- svm1values %>% 
   ggplot(aes(sample = res)) + 
   geom_qq(size = 0.3) +
-  geom_abline(slope = 1, intercept = 0) +
+#  geom_abline(slope = 1, intercept = 0) +
   scale_color_viridis_d() +
   theme_clean()
 
